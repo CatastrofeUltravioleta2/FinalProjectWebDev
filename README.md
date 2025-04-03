@@ -9,11 +9,11 @@
 - I wanted to build this project because I really like game development, and I also really like Pokémon, so it would be a way to combine both. I think it is a great way to show all the contents learned in this course and apply many of the "hard things" challenges. I think this project will help me develop my skills and learn many others, so that is why I chose it. 
 
 1. ## April 02 (05%)
-    - [ ] Project structure with HTML , CSS and JS (code organization)
-    - [ ] User can visit the homepage.
-    - [ ] User can go through pages with nav bar (home, login, team builder)
-    - [ ] User can create an account using forms (name, password, email, number)
-    - [ ] C# API can register login information 
+    - [x] Project structure with HTML , CSS and JS (code organization)
+    - [x] User can visit the homepage.
+    - [x] User can go through pages with nav bar (home, login, team builder)
+    - [x] User can create an account using forms (name, email, number)
+    - [x] C# API can register login information 
 2. ## April 05 (30%)
     - [ ] User can view pokemon available for teams (request from Pokemon API)
     - [ ] User can filter pokemon by some parameters like type, name and others.

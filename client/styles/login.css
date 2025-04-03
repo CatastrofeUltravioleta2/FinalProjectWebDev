@@ -1,0 +1,64 @@
+:root{
+
+}
+
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Main-login{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-radius: 1em;
+    margin: 2em;
+    margin-top: 5em;
+
+    img{
+        height: 35em;
+        border-radius: 0.8em;
+    }
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1em;
+
+    div{
+        margin: 0.5em;
+        border-style: solid;
+        border-radius: 0.5em;
+        padding: 1em;
+    }
+
+    legend{
+        text-align: center;
+        font-size: 1.5em;
+    }
+
+    input{
+        text-align: center;
+    }
+}
+
+#login-form{
+    display: flex;
+}
+
+#createAccount-form{
+    display: none;
+}
+
+.ErrorMessage{
+    display: none;
+    text-align: center;
+    margin: 0;
+    margin-top: 0.5em;
+    color: red;
+}
