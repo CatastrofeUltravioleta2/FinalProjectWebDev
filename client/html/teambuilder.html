@@ -1,21 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/client/styles/homepage.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/client/styles/teamBuilder.css" />
+    <script type="module" src="/client/src/ui/teamBuilderUI.js"></script>
+    <script
+      type="module"
+      src="/client/src/domain/teamBuilderDomain.js"
+    ></script>
     <title>Team Builder</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <a href="homepage.html">
-          <img src="/client/media/pokeball.png" alt="logo" />
-        </a>
-        <h1 id="titleHomepage">Team Builder</h1>
-        <nav>
-          <a href="teambuilder.html">Team Builder</a>
-          <a href="account.html">Account</a>
-        </nav>
-      </header>
-</body>
+      <a href="homepage.html">
+        <img src="/client/media/pokeball.png" alt="logo" />
+      </a>
+      <h1 id="titleHomepage">Team Builder</h1>
+      <nav>
+        <a href="teambuilder.html">Team Builder</a>
+        <a href="account.html">Account</a>
+      </nav>
+    </header>
+    <main>
+      <div id="pokemonContainer">
+        <h1>Pokemon</h1>
+
+        <div id="filters">
+          <h2>Filters</h2>
+          <div>
+            <label for="pokemonNameFilter">Enter Pokemon Name</label>
+            <input
+              type="text"
+              name="pokemonNameFilter"
+              id="pokemonNameFilter"
+            />
+          </div>
+          <div>
+            <label for="pokemonIdFilter">Enter Pokemon Id</label>
+            <input type="number" name="pokemonIdFilter" id="pokemonIdFilter" />
+          </div>
+          <div>
+            <label for="pokemonType1Filter">Enter Pokemon Types</label>
+            <select name="pokemonType1Filter" id="pokemonType1Filter">
+              <option></option>
+              <option>Normal</option>
+              <option>Fire</option>
+              <option>Water</option>
+              <option>Electric</option>
+              <option>Grass</option>
+              <option>Ice</option>
+              <option>Fighting</option>
+              <option>Poison</option>
+              <option>Ground</option>
+              <option>Flying</option>
+              <option>Psychic</option>
+              <option>Bug</option>
+              <option>Rock</option>
+              <option>Ghost</option>
+              <option>Dragon</option>
+              <option>Dark</option>
+              <option>Steel</option>
+              <option>Fairy</option>
+            </select>
+            <select name="pokemonType2Filter" id="pokemonType2Filter">
+              <option></option>
+              <option>Normal</option>
+              <option>Fire</option>
+              <option>Water</option>
+              <option>Electric</option>
+              <option>Grass</option>
+              <option>Ice</option>
+              <option>Fighting</option>
+              <option>Poison</option>
+              <option>Ground</option>
+              <option>Flying</option>
+              <option>Psychic</option>
+              <option>Bug</option>
+              <option>Rock</option>
+              <option>Ghost</option>
+              <option>Dragon</option>
+              <option>Dark</option>
+              <option>Steel</option>
+              <option>Fairy</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="pokemonCardContainer">
+          <div class="pokemonCard">
+            <h2>(25) Pikachu</h2>
+            <img src="" alt="" />
+            <ul class="Types">
+              <li>Electric</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="teamContainer">
+        <h1>Drag Pokemon Into Teams</h1>
+        <div id="dragPokemonContainer">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
