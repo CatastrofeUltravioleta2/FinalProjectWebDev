@@ -52,14 +52,6 @@ const AddValidationToLogIn = () => {
       emailError.style.display = "none";
       emailError.textContent = "";
     }
-
-    if (!isUserAlreadyRegistered(e.target.value)) {
-      userDoesNotExistError.style.display = "block";
-      userDoesNotExistError.textContent = "Email is not registered";
-    } else {
-      userDoesNotExistError.style.display = "none";
-      userDoesNotExistError.textContent = "";
-    }
   });
 
   logInForm.addEventListener("submit", (e) => {
@@ -82,6 +74,16 @@ const AddValidationToLogIn = () => {
 
     if (userDoesNotExistError.textContent !== "") {
       e.preventDefault();
+    }
+
+    if (usernameLogin.value !== "" && emailLogin.value !== "" && !isUserAlreadyRegistered(emailLogin.value, usernameLogin.value)) {
+      e.preventDefault();
+      userDoesNotExistError.style.display = "block";
+      userDoesNotExistError.textContent = "User is not registered";
+      setTimeout(() => {
+        userDoesNotExistError.style.display = "none";
+        userDoesNotExistError.textContent = "";
+      }, 5000);
     }
   });
 };
@@ -122,14 +124,6 @@ const AddValidationToCreateAccount = () => {
     } else {
       emailError.style.display = "none";
       emailError.textContent = "";
-    }
-    
-    if (isUserAlreadyRegistered(e.target.value)) {
-      userAlreadyExistError.style.display = "block";
-      userAlreadyExistError.textContent = "Email is already registered";
-    } else {
-      userAlreadyExistError.style.display = "none";
-      userAlreadyExistError.textContent = "";
     }
   });
 
@@ -192,8 +186,14 @@ const AddValidationToCreateAccount = () => {
       e.preventDefault();
     }
 
-    if (userAlreadyExistError.textContent !== "") {
+    if (username.value !== "" && email.value !== "" && isUserAlreadyRegistered(email.target.value, username.target.value)) {
       e.preventDefault();
+      userAlreadyExistError.style.display = "block";
+      userAlreadyExistError.textContent = "User is already registered";
+      setTimeout(() => {
+        userAlreadyExistError.style.display = "none";
+        userAlreadyExistError.textContent = "";
+      }, 5000);
     }
 
     const isUserValid =
@@ -205,7 +205,7 @@ const AddValidationToCreateAccount = () => {
       ageError.textContent === "" &&
       region.value != "" &&
       regionError.textContent === "" &&
-      userAlreadyExistError.textContent === "";
+      isUserAlreadyRegistered(email.value, username.value);
 
     if (isUserValid) {
       await sendUserInfoToApi(
