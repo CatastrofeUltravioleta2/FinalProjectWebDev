@@ -20,8 +20,8 @@
     - [x] User can drag and drop pokemons to create a team.
     - [x] User can add and remove pokemons from the team
     - [ ] User can save teams to the local storage and acces them later (C# API)
-    - [ ] User can edit each pokemon individually adding moves, items and abilities.
-    - [ ] Basic CSS styling / color correction and themes for page.
+    - [-] User can edit each pokemon individually adding moves, and abilities.
+    - [-] Basic CSS styling / color correction and themes for page.
 3. ## April 09 (45%)
     - [ ] User can enter into single battle, test matches
     - [ ] User can connect with other players (basic multiplayer)
