@@ -17,8 +17,8 @@
 2. ## April 05 (30%)
     - [x] User can view pokemon available for teams (request from Pokemon API)
     - [x] User can filter pokemon by some parameters like type, name and others.
-    - [ ] User can drag and drop pokemons to create a team.
-    - [ ] User can add and remove pokemons from the team
+    - [x] User can drag and drop pokemons to create a team.
+    - [x] User can add and remove pokemons from the team
     - [ ] User can save teams to the local storage and acces them later (C# API)
     - [ ] User can edit each pokemon individually adding moves, items and abilities.
     - [ ] Basic CSS styling / color correction and themes for page.

@@ -1,11 +1,29 @@
-import { getPokemonListDisplay } from "../domain/teamBuilderDomain.js";
+import {
+  addPokemonToTeam,
+  getAmountInTeam,
+  getPokemonById,
+  getPokemonListDisplay,
+  removePokemonFromTeam,
+} from "../domain/teamBuilderDomain.js";
 
 const createPokemonCard = (pokemon) => {
   const CardDiv = document.createElement("div");
-  CardDiv.classList.add("pokemonCard");
+  if(pokemon.onTeam == false)
+  {
+      CardDiv.classList.add("pokemonCard");
+  }
+  else{
+    CardDiv.classList.add("pokemonCardonTeam");
+  }
   CardDiv.addEventListener("click", (e) => {
-    window.location.replace(`pokedexEntry.html?${pokemon.id}`)
-  })
+    window.location.replace(`pokedexEntry.html?${pokemon.id}`);
+  });
+
+  CardDiv.dataset.id = pokemon.id;
+  CardDiv.draggable = true;
+  CardDiv.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", `${pokemon.id}|${pokemon.onTeam}`);
+  });
 
   const name = document.createElement("h2");
   name.textContent = `(${pokemon.id}) ${pokemon.name}`;
@@ -76,12 +94,63 @@ const filterPokemon = () => {
         p.types[1]?.includes(type1Filter.value.toLowerCase())) &&
       (p.types[0]?.includes(type2Filter.value.toLowerCase()) ||
         p.types[1]?.includes(type2Filter.value.toLowerCase())) &&
-        (idFilter.value == "" || p.id == idFilter.value)
+      (idFilter.value == "" || p.id == idFilter.value)
     );
   });
 
   renderPokemonCard(filteredPokemon);
 };
 
+const setupDropTeam = () => {
+  const dropItems = document.getElementById("dragPokemonContainer").children;
+  for (var teamSlot of dropItems) {
+    teamSlot.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+    teamSlot.addEventListener("drop", (e) => {
+      const transferInfo = e.dataTransfer.getData("text/plain");
+      const pokemonId = transferInfo.split("|")[0];
+      const onTeam = transferInfo.split("|")[1];
+
+      if (onTeam == "false" && getAmountInTeam() < 6) {
+          const pokemonDraggedInfo = getPokemonById(pokemonId);
+          addPokemonToTeam(pokemonDraggedInfo);
+        e.target.appendChild(createPokemonCard(pokemonDraggedInfo));
+        renderPokemonCard(getPokemonListDisplay());
+      }
+    });
+  }
+};
+
+const setupDropNotOnTeam = () => {
+  const pokemonContainer = document.getElementById("pokemonCardContainer");
+  pokemonContainer.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  pokemonContainer.addEventListener("drop", (e) => {
+    const transferInfo = e.dataTransfer.getData("text/plain");
+    const pokemonId = transferInfo.split("|")[0];
+    const onTeam = transferInfo.split("|")[1];
+
+
+    if(onTeam == "true" && getAmountInTeam() >= 0){
+        const pokemonDraggedInfo = getPokemonById(pokemonId);
+        removePokemonFromTeam(pokemonDraggedInfo);
+        renderPokemonCard(getPokemonListDisplay());
+        
+        const dropItems = document.getElementById("dragPokemonContainer").children;
+        for (var teamSlot of dropItems) {
+            if(teamSlot.childNodes[0]?.dataset.id == pokemonId)
+            {
+                teamSlot.replaceChildren();
+            }
+        }
+    }
+  });
+};
+
 renderPokemonCard(getPokemonListDisplay());
 setupFilter();
+setupDropTeam();
+setupDropNotOnTeam();
