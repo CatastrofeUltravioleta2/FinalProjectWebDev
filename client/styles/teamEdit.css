@@ -41,6 +41,15 @@ main {
   width: 100%;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    width: 100%;
+  }
+
 .displayTeamContainer {
   margin-top: 5em;
   display: grid;
