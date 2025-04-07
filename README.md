@@ -19,8 +19,8 @@
     - [x] User can filter pokemon by some parameters like type, name and others.
     - [x] User can drag and drop pokemons to create a team.
     - [x] User can add and remove pokemons from the team
-    - [ ] User can save teams to the local storage and acces them later (C# API)
-    - [-] User can edit each pokemon individually adding moves, and abilities.
+    - [x] User can save teams to the local storage and acces them later (C# API)
+    - [x] User can edit each pokemon individually adding moves, and abilities.
     - [-] Basic CSS styling / color correction and themes for page.
 3. ## April 09 (45%)
     - [ ] User can enter into single battle, test matches
