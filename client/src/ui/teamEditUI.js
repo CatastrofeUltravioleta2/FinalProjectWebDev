@@ -1,13 +1,27 @@
 import {
   getPokemonDataForCards,
   getPokemonTeamData,
+  setTeamEditing,
   populateTeam,
+  getTeamEditing,
 } from "../domain/teamEditDomain.js";
-import { sendTeamToAPI } from "../service/pokemonTeamService.js";
+import {
+  sendTeamToAPI,
+  sendTeamToAPIWithId,
+} from "../service/pokemonTeamService.js";
+
+var teamId = 0;
 
 const getTeamFromQueryString = async () => {
-  const queryString = window.location.search.slice(1).slice(0, -1).split("&");
-  await populateTeam(queryString);
+  const queryString = window.location.search.slice(1).split("&");
+  if (queryString[6] != "") {
+    teamId = queryString[6];
+  }
+
+  if (teamId != 0) {
+    await setTeamEditing(teamId);
+  }
+  await populateTeam(queryString.slice(0, 6));
 };
 
 const generateInitialPokemonCards = () => {
@@ -128,6 +142,15 @@ const createPokemonCard = (pokemon) => {
     };
     selectMoves.forEach((m) => m.appendChild(createOption()));
   });
+
+  //setup edit team
+  if (teamId != 0) {
+    const editTeam = getTeamEditing();
+    selectAbility.value = editTeam[pokemon.teamIndex].ability;
+    selectMoves.forEach((m, index) => {
+      m.value = editTeam[pokemon.teamIndex].moves[index];
+    });
+  }
 
   //check up for select moves
   selectMoves.forEach((m) =>
@@ -297,10 +320,11 @@ const setupSendEditedTeam = () => {
       var pokemonTeam = [];
       const pokeData = getPokemonDataForCards();
       for (var i = 0; i < 6; i++) {
-
         const movesUrl = [];
         movesSelectors[i].forEach((m) => {
-            movesUrl.push(pokeData[i].moves.find(move => move.move.name == m.value).move.url)
+          movesUrl.push(
+            pokeData[i].moves.find((move) => move.move.name == m.value).move.url
+          );
         });
 
         pokemonTeam.push({
@@ -313,12 +337,23 @@ const setupSendEditedTeam = () => {
           movesURL: movesUrl,
         });
       }
-      sendTeamToAPI(pokemonTeam);
+      const user = sessionStorage.getItem("username");
+      const email = sessionStorage.getItem("email");
+      const owner = `${user}|${email}`;
+
+      if (teamId != 0) {
+        sendTeamToAPIWithId(pokemonTeam, teamId, owner);
+      } else {
+        sendTeamToAPI(pokemonTeam, owner);
+      }
       window.location.replace("homepage.html");
     }
   });
 };
 
+if (sessionStorage.getItem("username") == null) {
+  window.location.replace("login.html");
+}
 await getTeamFromQueryString();
 generateInitialPokemonCards();
 setupCardSwithListener();

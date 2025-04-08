@@ -1,66 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/client/styles/login.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/client/styles/login.css" />
     <script type="module" src="/client/src/ui/LoginUI.js"></script>
-    <script type="module", src="/client/src/service/loginService.js"></script>
+    <script type="module" , src="/client/src/service/loginService.js"></script>
     <script type="module" src="/client/src/domain/loginDomain.js"></script>
+    <!-- <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script> -->
     <title>Login Page</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="Main-login">
-        <form id="login-form" method="get" action="homepage.html">
-            <legend>Sign up to Pokemon Battle Simulator</legend>
-            <div id="username-login">
-                <label for="usernameLogin">Enter Username</label>
-                <input type="text" name="usernameLogin" id="usernameLogin">
-                <p class="ErrorMessage" id="usernameLoginError"></p>
-            </div>
-            <div id="email-login">
-                <label for="emailLogin">Enter Email</label>
-                <input type="email" name="emailLogin" id="emailLogin" placeholder="test@example.com">
-                <p class="ErrorMessage" id="emailLoginError"></p>
-            </div>
-            <button type="button" id="SwitchToCreateAccount">Need to Create an Account?</button>
-            <input type="submit" value="Log-In">
-            <p class="ErrorMessage" id="userDoesNotExist"></p>
-        </form>
+      <form id="login-form" method="get" action="homepage.html">
+        <legend>Sign up to Pokemon Battle Simulator</legend>
+        <div id="username-login">
+          <label for="usernameLogin">Enter Username</label>
+          <input type="text" name="usernameLogin" id="usernameLogin" />
+          <p class="ErrorMessage" id="usernameLoginError"></p>
+        </div>
+        <div id="email-login">
+          <label for="emailLogin">Enter Email</label>
+          <input
+            type="email"
+            name="emailLogin"
+            id="emailLogin"
+            placeholder="test@example.com"
+          />
+          <p class="ErrorMessage" id="emailLoginError"></p>
+        </div>
+        <button type="button" id="SwitchToCreateAccount">
+          Need to Create an Account?
+        </button>
+        <input type="submit" value="Log-In" />
+        <p class="ErrorMessage" id="userDoesNotExist"></p>
+      </form>
 
-        <form id="createAccount-form" method="get" action="homepage.html">
-            <legend>Enter Personal Information to Create an Account</legend>
-            <div id="username-create">
-                <label for="username">Enter Username</label>
-                <input type="text" name="username" id="username">
-                <p class="ErrorMessage" id="usernameError"></p>
-            </div>
-            <div id="email-create">
-                <label for="email">Enter Email</label>
-                <input type="email" name="email" id="email">
-                <p class="ErrorMessage" id="emailError"></p>
-            </div>
-            <div id="age-create">
-                <label for="age">Enter age</label>
-                <input type="number" name="age" id="age">
-                <p class="ErrorMessage" id="ageError"></p>
-            </div>
-            <div id="region-create">
-                <label for="region">Enter region</label>
-                <select name="region" id="region">
-                    <option></option>
-                    <option>America</option>
-                    <option>Europe</option>
-                    <option>Asia</option>
-                    <option>Africa</option>
-                </select>
-                <p class="ErrorMessage" id="regionError"></p>
-            </div>
-            <button type="button" id="SwitchToLogIn">Already have an Account?</button>
-            <input type="submit" value="Create Account">
-            <p class="ErrorMessage" id="userAlreadyExists"></p>
-        </form>
-        <img src="/client/media/LoginImg.jpg" alt="LoginImage">
+      <form id="createAccount-form" method="get" action="homepage.html">
+        <legend>Enter Personal Information to Create an Account</legend>
+        <div id="username-create">
+          <label for="username">Enter Username</label>
+          <input type="text" name="username" id="username" />
+          <p class="ErrorMessage" id="usernameError"></p>
+        </div>
+        <div id="email-create">
+          <label for="email">Enter Email</label>
+          <input type="email" name="email" id="email" />
+          <p class="ErrorMessage" id="emailError"></p>
+        </div>
+        <div id="age-create">
+          <label for="age">Enter age</label>
+          <input type="number" name="age" id="age" />
+          <p class="ErrorMessage" id="ageError"></p>
+        </div>
+        <div id="region-create">
+          <label for="region">Enter region</label>
+          <select name="region" id="region">
+            <option></option>
+            <option>America</option>
+            <option>Europe</option>
+            <option>Asia</option>
+            <option>Africa</option>
+          </select>
+          <p class="ErrorMessage" id="regionError"></p>
+        </div>
+        <button type="button" id="SwitchToLogIn">
+          Already have an Account?
+        </button>
+        <input type="submit" value="Create Account" />
+        <p class="ErrorMessage" id="userAlreadyExists"></p>
+      </form>
+      <img src="/client/media/LoginImg.jpg" alt="LoginImage" />
     </div>
-</body>
+  </body>
 </html>

@@ -119,8 +119,7 @@ const setupDropTeam = () => {
         addPokemonToTeam(pokemonDraggedInfo);
         e.target.appendChild(createPokemonCard(pokemonDraggedInfo));
         renderPokemonCard(getPokemonListDisplay());
-      }
-      else if (getAmountInTeam() == 6) {
+      } else if (getAmountInTeam() == 6) {
         const errorMessage = document.getElementById("teamError");
         errorMessage.textContent = "Team cannot contain more than 6 pokemon";
         errorMessage.style.display = "block";
@@ -175,13 +174,12 @@ const setupSendTeam = () => {
         errorMessage.style.display = "none";
       }, 3000);
     } else {
-
-      var ids = ""
+      var ids = "";
       const dropItems = document.getElementById(
         "dragPokemonContainer"
       ).children;
       for (var teamSlot of dropItems) {
-        ids += `${teamSlot.childNodes[0].dataset.id}&`
+        ids += `${teamSlot.childNodes[0].dataset.id}&`;
       }
 
       window.location.replace(`teamEdit.html?${ids}`);
@@ -189,6 +187,9 @@ const setupSendTeam = () => {
   });
 };
 
+if (sessionStorage.getItem("username") == null) {
+  window.location.replace("login.html");
+}
 renderPokemonCard(getPokemonListDisplay());
 setupFilter();
 setupDropTeam();

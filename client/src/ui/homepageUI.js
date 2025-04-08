@@ -1,23 +1,50 @@
 import { getPokemonDataFromId } from "../service/pokemonAPIservice.js";
-import { getAllTeams } from "../service/pokemonTeamService.js";
+import { getAllTeams, getAllTeamsByOwner } from "../service/pokemonTeamService.js";
 
 const displaySavedTeams = async () => {
   const savedTeamsDiv = document.getElementById("SavedTeams");
   savedTeamsDiv.replaceChildren();
 
-  const teams = await getAllTeams();
+  const user = sessionStorage.getItem("username");
+  const email = sessionStorage.getItem("email");
+  
+  const teams = await getAllTeamsByOwner(`${user}|${email}`);
   if (!teams || teams.length === 0) {
-    savedTeamsDiv.textContent = "No teams saved.";
+    savedTeamsDiv.textContent = "No teams saved. \n To join a game you need to create a team";
     return;
   }
 
   teams.forEach((team, teamIndex) => {
+    const savedTeamsTitle = document.createElement("h1");
+    savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`
+    savedTeamsDiv.appendChild(savedTeamsTitle);
+
+    const JoinGameButton = document.createElement("button");
+    JoinGameButton.textContent = "Join a Game";
+    savedTeamsDiv.appendChild(JoinGameButton);
+
+    JoinGameButton.addEventListener("click", (e) => {
+        window.location.replace("lobby.html");
+    })
+
     const teamContainer = document.createElement("div");
     teamContainer.classList.add("teamContainer");
 
     const teamTitle = document.createElement("h2");
     teamTitle.textContent = `Team ${teamIndex + 1}`;
     teamContainer.appendChild(teamTitle);
+
+    const editButton = document.createElement("button")
+    editButton.textContent = "Edit team";
+    teamContainer.appendChild(editButton);
+    editButton.addEventListener("click", (e) => {
+        var ids = "";
+        team.pokemons.forEach(p => {
+            ids += `${p.id}&`
+        });
+        window.location.replace(`teamEdit.html?${ids}${team.teamId}`)
+    })
+
 
     const pokemonTeamContainer = document.createElement("div");
     pokemonTeamContainer.classList.add("pokemonTeamContainer");
@@ -61,4 +88,8 @@ const displaySavedTeams = async () => {
   });
 };
 
+if(sessionStorage.getItem("username") == null)
+{
+    window.location.replace("login.html")
+}
 await displaySavedTeams();

@@ -1,4 +1,7 @@
-import { isUserAlreadyRegistered } from "../domain/loginDomain.js";
+import {
+  isUserAlreadyRegistered,
+  setSessionCurrentUser,
+} from "../domain/loginDomain.js";
 import { sendUserInfoToApi } from "../service/loginService.js";
 
 const SwitchCreateAccountOrLogIn = () => {
@@ -55,28 +58,38 @@ const AddValidationToLogIn = () => {
   });
 
   logInForm.addEventListener("submit", (e) => {
+    var isUserValid = true;
     if (usernameLogin.value === "") {
       e.preventDefault();
       usernameError.style.display = "block";
       usernameError.textContent = "Must enter a username";
+      isUserValid = false;
     }
     if (usernameError.textContent !== "") {
       e.preventDefault();
+      isUserValid = false;
     }
     if (emailLogin.value === "") {
       e.preventDefault();
       emailError.style.display = "block";
       emailError.textContent = "Must enter an email";
+      isUserValid = false;
     }
     if (emailError.textContent !== "") {
       e.preventDefault();
+      isUserValid = false;
     }
 
     if (userDoesNotExistError.textContent !== "") {
       e.preventDefault();
+      isUserValid = false;
     }
 
-    if (usernameLogin.value !== "" && emailLogin.value !== "" && !isUserAlreadyRegistered(emailLogin.value, usernameLogin.value)) {
+    if (
+      usernameLogin.value !== "" &&
+      emailLogin.value !== "" &&
+      !isUserAlreadyRegistered(emailLogin.value, usernameLogin.value)
+    ) {
       e.preventDefault();
       userDoesNotExistError.style.display = "block";
       userDoesNotExistError.textContent = "User is not registered";
@@ -84,6 +97,11 @@ const AddValidationToLogIn = () => {
         userDoesNotExistError.style.display = "none";
         userDoesNotExistError.textContent = "";
       }, 5000);
+      isUserValid = false;
+    }
+
+    if (isUserValid) {
+      setSessionCurrentUser(usernameLogin.value, emailLogin.value);
     }
   });
 };
@@ -186,14 +204,19 @@ const AddValidationToCreateAccount = () => {
       e.preventDefault();
     }
 
-    if (username.value !== "" && email.value !== "" && isUserAlreadyRegistered(email.target.value, username.target.value)) {
-      e.preventDefault();
+    if (
+      username.value !== "" &&
+      email.value !== "" &&
+      isUserAlreadyRegistered(email.value, username.value)
+    ) {
+      console.log("user not registered");
       userAlreadyExistError.style.display = "block";
       userAlreadyExistError.textContent = "User is already registered";
       setTimeout(() => {
         userAlreadyExistError.style.display = "none";
         userAlreadyExistError.textContent = "";
       }, 5000);
+      e.preventDefault();
     }
 
     const isUserValid =
@@ -205,9 +228,10 @@ const AddValidationToCreateAccount = () => {
       ageError.textContent === "" &&
       region.value != "" &&
       regionError.textContent === "" &&
-      isUserAlreadyRegistered(email.value, username.value);
+      !isUserAlreadyRegistered(email.value, username.value);
 
     if (isUserValid) {
+      setSessionCurrentUser(username.value, email.value);
       await sendUserInfoToApi(
         username.value,
         email.value,

@@ -1,7 +1,8 @@
 import { getPokemonDataFromId } from "../service/pokemonAPIservice.js";
-import { sendTeamToAPI } from "../service/pokemonTeamService.js";
+import { getTeamById, sendTeamToAPI } from "../service/pokemonTeamService.js";
 
 var pokemonTeamData = [];
+var teamEditing = [];
 
 export const populateTeam = async (ids) => {
   const promises = ids.map(async (id, index) => {
@@ -47,6 +48,11 @@ const selectMoves = (moves) => {
   });
 };
 
-export const sendTeamInfoToApi = () => {
+export const setTeamEditing = async (id) => {
+    const response = await getTeamById(id);
+    teamEditing = response.pokemons;
+}
 
+export const getTeamEditing = () => {
+    return [...teamEditing];
 }
