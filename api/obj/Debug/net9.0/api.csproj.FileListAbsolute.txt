@@ -28,3 +28,4 @@ C:\Users\wilhe\OneDrive\Documents\Intro to Web Dev\Web_Dev_Projects\FinalProject
 C:\Users\wilhe\OneDrive\Documents\Intro to Web Dev\Web_Dev_Projects\FinalProjectWebDev\api\obj\Debug\net9.0\api.genruntimeconfig.cache
 C:\Users\wilhe\OneDrive\Documents\Intro to Web Dev\Web_Dev_Projects\FinalProjectWebDev\api\obj\Debug\net9.0\ref\api.dll
 C:\Users\wilhe\OneDrive\Documents\Intro to Web Dev\Web_Dev_Projects\FinalProjectWebDev\api\bin\Debug\net9.0\userInfo.json
+C:\Users\wilhe\OneDrive\Documents\Intro to Web Dev\Web_Dev_Projects\FinalProjectWebDev\api\bin\Debug\net9.0\teamsInfo.json

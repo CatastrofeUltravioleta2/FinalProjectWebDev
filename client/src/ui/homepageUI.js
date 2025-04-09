@@ -14,10 +14,10 @@ const displaySavedTeams = async () => {
     return;
   }
 
+  const savedTeamsTitle = document.createElement("h1");
+  savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`
+  savedTeamsDiv.appendChild(savedTeamsTitle);
   teams.forEach((team, teamIndex) => {
-    const savedTeamsTitle = document.createElement("h1");
-    savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`
-    savedTeamsDiv.appendChild(savedTeamsTitle);
 
     const JoinGameButton = document.createElement("button");
     JoinGameButton.textContent = "Join a Game";
