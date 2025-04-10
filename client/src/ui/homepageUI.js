@@ -17,6 +17,7 @@ const displaySavedTeams = async () => {
   const savedTeamsTitle = document.createElement("h1");
   savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`
   savedTeamsDiv.appendChild(savedTeamsTitle);
+  
   teams.forEach((team, teamIndex) => {
 
     const JoinGameButton = document.createElement("button");
@@ -24,7 +25,7 @@ const displaySavedTeams = async () => {
     savedTeamsDiv.appendChild(JoinGameButton);
 
     JoinGameButton.addEventListener("click", (e) => {
-        window.location.replace("lobby.html");
+        window.location.replace(`lobby.html?${team.teamId}`);
     })
 
     const teamContainer = document.createElement("div");

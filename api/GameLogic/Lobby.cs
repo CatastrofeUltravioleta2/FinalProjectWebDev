@@ -2,11 +2,11 @@
 
 public static class Lobby
 {
-    static private Dictionary<Guid, Game> AllGames {get;set;}
+    static private Dictionary<Guid, Game> AllGames {get;set;} = new Dictionary<Guid, Game>();
     public static Guid CreateGame() 
     {
-        Game newGame = new Game();
         Guid gameId = Guid.NewGuid();
+        Game newGame = new Game(gameId);
         AllGames[gameId] = newGame;
         return gameId;
     }
@@ -14,26 +14,11 @@ public static class Lobby
     {
         return AllGames.ContainsKey(id) ? AllGames[id] : null;
     }
-    public static bool JoinGame(Guid id, Player player)
+    public static Guid JoinGame(Player player1, Player player2)
     {
-        var currentGame = GetGameById(id);
-        if(currentGame is null)
-        {
-            return false;
-        }
-        if(currentGame.isFull)
-        {
-            return false;
-        }
-
-        if(currentGame.Player1 is null)
-        {
-            currentGame.Player1 = player;
-        }
-        else
-        {
-            currentGame.Player2 = player;
-        }
-        return true;
+        var currentGameId = CreateGame();
+        AllGames[currentGameId].Player1 = player1;
+        AllGames[currentGameId].Player2 = player2;
+        return currentGameId;
     }
 }

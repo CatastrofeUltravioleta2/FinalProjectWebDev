@@ -5,6 +5,7 @@ using System.Net;
 using GameLogic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Records;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
@@ -13,15 +14,50 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
 //enable websocket
 // store list of connections/ users as key and connections as values
-Queue<WebSocket> playersWaitingToPair = new Queue<WebSocket>();
+Queue<string> playersWaitingToPair = new Queue<string>();
+Dictionary<string, WebSocket> connections = new Dictionary<string, WebSocket>();
+Dictionary<string, pokemonTeamBattle> Players = new Dictionary<string, pokemonTeamBattle>();
+
 app.UseWebSockets(new WebSocketOptions() { KeepAliveInterval = TimeSpan.FromMinutes(2) });
-app.Map("/ws", async context =>
+
+app.Map("/battle", async context =>
 {
     if (context.WebSockets.IsWebSocketRequest)
     {
-        using WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        System.Console.WriteLine("connection accepted");
-        await SendMessage(webSocket);
+        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+        userIndetification? currentUser = await waitForUser(webSocket);
+        if(currentUser is null || connections.ContainsKey(currentUser.userData))
+        {
+            //await SendMessage(webSocket, "User invalid or already connected");
+            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "User invalid or already connected", CancellationToken.None);
+            return;
+        }
+        connections[currentUser.userData] = webSocket;
+        Players[currentUser.userData] = currentUser.team;
+        await SendMessage(webSocket, JsonSerializer.Serialize<pokemonTeamBattle>(Players[currentUser.userData]));
+        //if there are no other players waiting, add player queue
+        if (playersWaitingToPair.Count == 0)
+        {
+            playersWaitingToPair.Enqueue(currentUser.userData);
+            string sendJSON = """
+            {"type": "userStatus",
+            "message": "Waiting for other player to connect"}
+            """;
+            await SendMessage(webSocket, sendJSON);
+        }
+        else
+        {
+            var oponent = playersWaitingToPair.Dequeue(); //find oponent
+            var currentGameId = Lobby.JoinGame(
+                new Player(currentUser.userData, Players[currentUser.userData]),
+                new Player(oponent, Players[oponent]));
+
+            string sendJSON = $"{{\"type\": \"joinGame\", \"message\": \"Match Found\", \"gameId\": \"{currentGameId}\"}}";
+
+            await SendMessage(connections[currentUser.userData], sendJSON);
+            await SendMessage(connections[oponent], sendJSON);
+
+        }
     }
     else
     {
@@ -29,9 +65,9 @@ app.Map("/ws", async context =>
     }
 });
 
-static async Task SendMessage(WebSocket webSocket)
+static async Task SendMessage(WebSocket webSocket, string message)
 {
-    var bytes = Encoding.UTF8.GetBytes("send message");
+    var bytes = Encoding.UTF8.GetBytes(message);
     await webSocket.SendAsync(
         new ArraySegment<byte>(bytes),
         WebSocketMessageType.Text,
@@ -39,6 +75,25 @@ static async Task SendMessage(WebSocket webSocket)
         CancellationToken.None
     );
 }
+static async Task<userIndetification> waitForUser(WebSocket webSocket)
+{
+    var buffer = new byte[1024 * 4];
+    var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+    var message = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+
+    try
+    {
+        var data = JsonSerializer.Deserialize<userIndetification>(message);
+        if (data is not null && data.type == "userIndetification")
+        {
+            return data;
+        }
+    }
+    catch
+    { }
+    return null;
+}
+
 
 string userInfoFile = "userInfo.json";
 string teamsFile = "teamsInfo.json";
@@ -87,6 +142,3 @@ app.MapPost("/Teams", (pokemonTeam team) =>
 
 app.Run();
 
-public record userAccount(string username, string email, int age, string region);
-public record pokemonTeam(pokemon[] Pokemons, long teamId, string owner);
-public record pokemon(int id, string ability, string abilityURL, string[] moves, string[] movesURL);

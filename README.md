@@ -24,7 +24,7 @@
     - [-] Basic CSS styling / color correction and themes for page.
 3. ## April 09 (45%)
     - [ ] User can enter into single battle, test matches
-    - [ ] User can connect with other players (basic multiplayer)
+    - [x] User can connect with other players (basic multiplayer)
     - [ ] Pokemons can attack and do damage based on their types and other variables.
     - [ ] User can attack or change pokemons in a fight.
     - [ ] User can win a match if all opposing pokemon are defeated.

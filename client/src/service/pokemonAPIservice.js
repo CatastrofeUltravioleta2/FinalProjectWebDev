@@ -19,3 +19,17 @@ export const getPokemonDataFromId = async (id) => {
   });
   return await response.json();
 };
+
+export const getMoveData = async (url) => {
+  const response = await fetch(url, {
+    method: "GET",
+  });
+  return await response.json();
+};
+
+export const getAbilityData = async (url) => {
+  const response = await fetch(url, {
+    method: "GET",
+  });
+  return await response.json();
+};
