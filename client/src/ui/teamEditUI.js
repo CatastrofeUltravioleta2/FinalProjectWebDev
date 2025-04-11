@@ -346,7 +346,13 @@ const setupSendEditedTeam = () => {
       } else {
         sendTeamToAPI(pokemonTeam, owner);
       }
-      window.location.replace("homepage.html");
+
+      console.log(pokemonTeam);
+      console.log(`${user}|${email}`);
+
+      setTimeout(() => {
+        window.location.replace("homepage.html");
+      }, 10000);
     }
   });
 };
@@ -354,6 +360,7 @@ const setupSendEditedTeam = () => {
 if (sessionStorage.getItem("username") == null) {
   window.location.replace("login.html");
 }
+
 await getTeamFromQueryString();
 generateInitialPokemonCards();
 setupCardSwithListener();

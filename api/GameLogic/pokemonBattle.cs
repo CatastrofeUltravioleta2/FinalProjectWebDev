@@ -1,7 +1,7 @@
 public class pokemonBattle
 {
     public int Id { get; set; }
-    public List<Types> Types {get;}
+    public List<string> Types {get; set;}
     public string Name { get; set; }
     public int HP { get; set; }
     public int Attack { get; set; }
@@ -12,7 +12,7 @@ public class pokemonBattle
     public List<Move> Moves { get; set; } = new List<Move>();
     public Ability Ability { get; set; }
 
-    public pokemonBattle(int id, List<Types> types, string name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, List<Move> moves, Ability ability)
+    public pokemonBattle(int id, List<string> types, string name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, List<Move> moves, Ability ability)
     {
         Id = id;
         Types = types;

@@ -1,33 +1,40 @@
 import { getTeamForBattle } from "../domain/lobbyDomain.js";
+var socket = undefined;
+export const SetupConnection = (onMessageReceived) => {
 
-const socket = new WebSocket("ws://localhost:5176/battle");
+  socket = new WebSocket("ws://localhost:5176/battle");
+  if (!socket) return;
 
-const user = sessionStorage.getItem("username");
-const email = sessionStorage.getItem("email");
+  const user = sessionStorage.getItem("username");
+  const email = sessionStorage.getItem("email");
 
-socket.addEventListener("open", () => {
+  socket.addEventListener("open", () => {
     console.log("WebSocket connected");
 
+    const teamToSend = getTeamForBattle();
     const identification = {
       type: "userIndetification",
       userData: `${user}|${email}`,
-      team: getTeamForBattle(),
+      team: teamToSend.pokemons,
     };
-
+    console.log(`${user}|${email}`);
     socket.send(JSON.stringify(identification));
   });
 
-  socket.addEventListener("message", event => {
-
-    console.log(event)
+  socket.addEventListener("message", (event) => {
     const data = JSON.parse(event.data);
-    console.log(data);
 
     console.log("Received message:", data);
-
-    if (data.type === "userStatus") {
-      // waiting for other player
-    } else if (data.type === "joinGame") {
-      // join game with id
-    }
+    onMessageReceived(data);
+    console.log(socket)
   });
+
+  socket.addEventListener("close", (event) => {
+    console.log("websocket disconnected")
+    console.log(event)
+  })
+
+  socket.addEventListener("error" , (event) => {
+    console.log(`got error`, event)
+  })
+};

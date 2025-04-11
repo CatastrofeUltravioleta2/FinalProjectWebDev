@@ -1,5 +1,8 @@
 import { getPokemonDataFromId } from "../service/pokemonAPIservice.js";
-import { getAllTeams, getAllTeamsByOwner } from "../service/pokemonTeamService.js";
+import {
+  getAllTeams,
+  getAllTeamsByOwner,
+} from "../service/pokemonTeamService.js";
 
 const displaySavedTeams = async () => {
   const savedTeamsDiv = document.getElementById("SavedTeams");
@@ -7,26 +10,26 @@ const displaySavedTeams = async () => {
 
   const user = sessionStorage.getItem("username");
   const email = sessionStorage.getItem("email");
-  
+
   const teams = await getAllTeamsByOwner(`${user}|${email}`);
   if (!teams || teams.length === 0) {
-    savedTeamsDiv.textContent = "No teams saved. \n To join a game you need to create a team";
+    savedTeamsDiv.textContent =
+      "No teams saved. \n To join a game you need to create a team";
     return;
   }
 
   const savedTeamsTitle = document.createElement("h1");
-  savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`
+  savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`;
   savedTeamsDiv.appendChild(savedTeamsTitle);
-  
-  teams.forEach((team, teamIndex) => {
 
+  teams.forEach((team, teamIndex) => {
     const JoinGameButton = document.createElement("button");
     JoinGameButton.textContent = "Join a Game";
     savedTeamsDiv.appendChild(JoinGameButton);
 
     JoinGameButton.addEventListener("click", (e) => {
-        window.location.replace(`lobby.html?${team.teamId}`);
-    })
+      window.location.replace(`lobby.html?${team.teamId}`);
+    });
 
     const teamContainer = document.createElement("div");
     teamContainer.classList.add("teamContainer");
@@ -35,17 +38,16 @@ const displaySavedTeams = async () => {
     teamTitle.textContent = `Team ${teamIndex + 1}`;
     teamContainer.appendChild(teamTitle);
 
-    const editButton = document.createElement("button")
+    const editButton = document.createElement("button");
     editButton.textContent = "Edit team";
     teamContainer.appendChild(editButton);
     editButton.addEventListener("click", (e) => {
-        var ids = "";
-        team.pokemons.forEach(p => {
-            ids += `${p.id}&`
-        });
-        window.location.replace(`teamEdit.html?${ids}${team.teamId}`)
-    })
-
+      var ids = "";
+      team.pokemons.forEach((p) => {
+        ids += `${p.id}&`;
+      });
+      window.location.replace(`teamEdit.html?${ids}${team.teamId}`);
+    });
 
     const pokemonTeamContainer = document.createElement("div");
     pokemonTeamContainer.classList.add("pokemonTeamContainer");
@@ -89,8 +91,11 @@ const displaySavedTeams = async () => {
   });
 };
 
-if(sessionStorage.getItem("username") == null)
-{
-    window.location.replace("login.html")
+if (sessionStorage.getItem("username") == null) {
+  window.location.replace("login.html");
 }
 await displaySavedTeams();
+
+const user = sessionStorage.getItem("username");
+const email = sessionStorage.getItem("email");
+console.log(`${user}|${email}`);

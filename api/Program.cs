@@ -16,7 +16,7 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 // store list of connections/ users as key and connections as values
 Queue<string> playersWaitingToPair = new Queue<string>();
 Dictionary<string, WebSocket> connections = new Dictionary<string, WebSocket>();
-Dictionary<string, pokemonTeamBattle> Players = new Dictionary<string, pokemonTeamBattle>();
+Dictionary<string, List<pokemonBattle>> Players = new Dictionary<string, List<pokemonBattle>>();
 
 app.UseWebSockets(new WebSocketOptions() { KeepAliveInterval = TimeSpan.FromMinutes(2) });
 
@@ -26,15 +26,15 @@ app.Map("/battle", async context =>
     {
         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
         userIndetification? currentUser = await waitForUser(webSocket);
-        if(currentUser is null || connections.ContainsKey(currentUser.userData))
+        if (currentUser is null || connections.ContainsKey(currentUser.userData))
         {
             //await SendMessage(webSocket, "User invalid or already connected");
+            System.Console.WriteLine("user invalid already connected");
             await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "User invalid or already connected", CancellationToken.None);
             return;
         }
         connections[currentUser.userData] = webSocket;
         Players[currentUser.userData] = currentUser.team;
-        await SendMessage(webSocket, JsonSerializer.Serialize<pokemonTeamBattle>(Players[currentUser.userData]));
         //if there are no other players waiting, add player queue
         if (playersWaitingToPair.Count == 0)
         {
@@ -49,10 +49,16 @@ app.Map("/battle", async context =>
         {
             var oponent = playersWaitingToPair.Dequeue(); //find oponent
             var currentGameId = Lobby.JoinGame(
-                new Player(currentUser.userData, Players[currentUser.userData]),
-                new Player(oponent, Players[oponent]));
+                new Player(currentUser.userData, new pokemonTeamBattle(Players[currentUser.userData])),
+                new Player(oponent, new pokemonTeamBattle(Players[oponent]))
+                );
 
             string sendJSON = $"{{\"type\": \"joinGame\", \"message\": \"Match Found\", \"gameId\": \"{currentGameId}\"}}";
+            System.Console.WriteLine(oponent);
+            System.Console.WriteLine(connections.Count);
+            
+            System.Console.WriteLine(connections[currentUser.userData].State);
+            System.Console.WriteLine(connections[oponent].State);
 
             await SendMessage(connections[currentUser.userData], sendJSON);
             await SendMessage(connections[oponent], sendJSON);
@@ -79,21 +85,20 @@ static async Task<userIndetification> waitForUser(WebSocket webSocket)
 {
     var buffer = new byte[1024 * 4];
     var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-    var message = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
-
-    try
-    {
-        var data = JsonSerializer.Deserialize<userIndetification>(message);
+    var message = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);;
+    var data = JsonSerializer.Deserialize<userIndetification>(message);
+    // try
+    // {
         if (data is not null && data.type == "userIndetification")
         {
             return data;
         }
-    }
-    catch
-    { }
-    return null;
+        throw new Exception();
+    // }
+    // catch
+    // { }
+    // return null;
 }
-
 
 string userInfoFile = "userInfo.json";
 string teamsFile = "teamsInfo.json";
