@@ -28,7 +28,7 @@ const displaySavedTeams = async () => {
     savedTeamsDiv.appendChild(JoinGameButton);
 
     JoinGameButton.addEventListener("click", (e) => {
-      window.location.replace(`lobby.html?${team.teamId}`);
+      window.location.replace(`combat.html?${team.teamId}`);
     });
 
     const teamContainer = document.createElement("div");

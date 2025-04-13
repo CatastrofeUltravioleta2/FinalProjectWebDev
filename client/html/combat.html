@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/client/styles/combat.css" />
+    <script type="module" src="/client/src/ui/combatUI.js"></script>
+    <script type="module" src="/client/src/domain/combatDomain.js"></script>
+    <script type="module" src="/client/src/service/combatSerivce.js"></script>
+    <title>Combat</title>
+  </head>
+  <body>
+    <header id="header">
+      <a href="homepage.html">
+        <img src="/client/media/pokeball.png" alt="logo" />
+      </a>
+      <h1 id="titleHomepage">Combat / Join Game</h1>
+      <nav>
+        <a href="teambuilder.html">Team Builder</a>
+        <a href="account.html">Account</a>
+      </nav>
+    </header>
+    <section id="connectionResponse"></section>
+    <section id="BattleScreen">
+      <div id="BattleField">
+        <div id="OponentSection" class="pokeCard">
+          <div class="PokemonData">
+            <h2 id="oponentCurrentPokemon"></h2>
+            <div class="heatlhContainer">
+              <div id="oponentHealthBar"></div>
+              <div id="oponentHPDisplay"></div>
+            </div>
+          </div>
+
+          <img
+            src=""
+            alt="oponentPokemon"
+            id="oponentActiveSprite"
+          />
+
+          <div class="pokemon-details" id="oponentDetails">
+            <p id="oponentHP"></p>
+            <p id="oponentAttack"></p>
+            <p id="oponentDefense"></p>
+            <p id="oponentSpAttack"></p>
+            <p id="oponentSpDefense"></p>
+            <p id="oponentSpeed"></p>
+            <ul id="oponentTypes">
+            </ul>
+          </div>
+        </div>
+
+        <div id="UserSection" class="pokeCard">
+          <div class="PokemonData">
+            <h2 id="userCurrentPokemon"></h2>
+            <div class="heatlhContainer">
+              <div id="userHealthBar"></div>
+              <div id="userHPDisplay"></div>
+            </div>
+          </div>
+          <img
+            src=""
+            alt="userPokemon"
+            id="userActiveSprite"
+          />
+
+          <div class="pokemon-details" id="userDetails">
+            <p id="userHP"></p>
+            <p id="userAttack"></p>
+            <p id="userDefense"></p>
+            <p id="userSpAttack"></p>
+            <p id="userSpDefense"></p>
+            <p id="userSpeed"></p>
+            <ul id="userTypes">
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="ComandField">
+        <div class="userdialog">
+          <p id="userDialogText"></p>
+        </div>
+        <ul class="options">
+          <li>
+            <button id="fightButton">FIGHT</button>
+          </li>
+          <li>
+            <button id="switchButton">SWITCH</button>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </body>
+</html>

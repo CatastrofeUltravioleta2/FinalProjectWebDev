@@ -1,9 +1,8 @@
-import { getTeamForBattle } from "../domain/lobbyDomain.js";
+import { getTeamForBattle } from "../domain/combatDomain.js";
 var socket = undefined;
-export const SetupConnection = (onMessageReceived) => {
-
+var handleMessageFunctions = [];
+const SetupConnection = () => {
   socket = new WebSocket("ws://localhost:5176/battle");
-  if (!socket) return;
 
   const user = sessionStorage.getItem("username");
   const email = sessionStorage.getItem("email");
@@ -23,18 +22,28 @@ export const SetupConnection = (onMessageReceived) => {
 
   socket.addEventListener("message", (event) => {
     const data = JSON.parse(event.data);
-
     console.log("Received message:", data);
-    onMessageReceived(data);
-    console.log(socket)
+    handleMessageFunctions.forEach( async (func) => await func(data));
   });
 
   socket.addEventListener("close", (event) => {
-    console.log("websocket disconnected")
-    console.log(event)
-  })
+    console.log("websocket disconnected");
+    console.log(event);
+  });
 
-  socket.addEventListener("error" , (event) => {
-    console.log(`got error`, event)
-  })
+  socket.addEventListener("error", (event) => {
+    console.log(`got error`, event);
+  });
+};
+
+export const getWebSocket = () => {
+  return socket;
+};
+
+export const initializeWebSocket = () => {
+  SetupConnection();
+};
+
+export const addMessageHandler = (func) => {
+  handleMessageFunctions.push(func);
 };

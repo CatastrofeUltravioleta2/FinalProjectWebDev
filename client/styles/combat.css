@@ -1,0 +1,188 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1em;
+  }
+  
+  header a img {
+    width: 10em;
+  }
+  
+  #titleHomepage {
+    margin-left: 1em;
+    font-size: 1.5em;
+  }
+  
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  nav a {
+    margin-left: 1em;
+    text-decoration: none;
+    font-size: 1em;
+  }
+
+
+  /* Battle Styling */
+  #BattleScreen {
+    display: none;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    height: 100vh;
+    width: 95%;
+  }
+  
+  #BattleField {
+    border-style: solid;
+    border-top-right-radius: 1em;
+    border-top-left-radius: 1em;
+    height: 80%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-image: url(/client/media/battleBackground.png);
+    background-position: center;
+    background-size: cover;
+  }
+  
+  .pokeCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 15em;
+  
+    img {
+      width: 15em;
+    }
+  }
+  
+  .heatlhContainer {
+    height: 1em;
+    width: 90%;
+    margin: auto;
+    border-radius: 0.5em;
+    box-sizing: content-box;
+    background-color: gray;
+  
+    div {
+      display: block;
+      border-radius: 0.5em;
+      height: 100%;
+      text-align: center;
+    }
+  }
+  
+  .PokemonData {
+    background-color: azure;
+    border-radius: 1em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    padding-top: 0;
+  }
+  
+  #oponentHealthBar {
+    width: 40%;
+    background-color: green;
+  }
+  
+  #userHealthBar {
+    width: 40%;
+    background-color: green;
+  }
+  
+  #OponentSection {
+    position: relative;
+    top: 15%;
+    left: 60%;
+  }
+  
+  #UserSection{
+      position: relative;
+      bottom: 15%;
+      left: 20%;
+  }
+  
+  #ComandField{
+      display: flex;
+      align-items: center;
+      width: 90%;
+      height: 15%;
+      border-style: solid;
+      background-color: rgb(223, 226, 165);
+  }
+  
+  .userdialog{
+      border-style: solid;
+      margin-left: 1em;
+      height: 80%;
+      width: 70%;
+      border-radius: 1em;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      p{
+        font-size: 2em;
+      }
+  }
+  
+  .options{
+      list-style: none;
+      border-style: solid;
+      border-radius: 1em;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0.5em;
+      height: 80%;
+      width: 25%;
+      padding: 0;
+  
+      button{
+          margin: 1em;
+      }
+  }
+  
+  .shrinkedDialog{
+      width: 40%;
+  }
+  
+  .expandedOptions{
+      width: 60%;
+  }
+  
+  .pokemon-details{
+      display: none;
+      width: 10em;
+      padding: 0.4em;
+      text-align: center;
+      position: absolute;
+      left: calc(100% + 5em);
+      background-color: white;
+      border-radius: 1em;
+      z-index: 2;
+  }
+  
+  /* .userActiveSprite:hover .userDetails{
+      display: block;
+  }
+  
+  .oponentActiveSprite:hover .oponentDetails{
+      display: block;
+  } */
