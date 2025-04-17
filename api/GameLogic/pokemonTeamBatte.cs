@@ -6,13 +6,12 @@ public class pokemonTeamBattle
 
     public void SwticActivePokemon(int newIndex)
     {
-        // switch active pokemon
+        ActivePokemonIndex = newIndex;
     }
     public pokemonTeamBattle(List<pokemonBattle> pokemons)
     {
         Pokemons = pokemons;
         ActivePokemonIndex = 0;
     }
-
 
 }

@@ -14,6 +14,17 @@ public static class Lobby
     {
         return AllGames.ContainsKey(id) ? AllGames[id] : null;
     }
+
+    //returns guid or null finds game of player
+    public static Guid GetGameIdByPlayer(string playerId)
+    {
+        foreach(var game in AllGames.Values)
+        {
+            if(game.Player1?.Info == playerId || game.Player2?.Info == playerId)
+                return game.Id;
+        }
+        return default;
+    }
     public static Guid JoinGame(Player player1, Player player2)
     {
         var currentGameId = CreateGame();

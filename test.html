@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="test.css" />
+    <title>Combat</title>
+  </head>
+  <body>
+    <section id="BattleScreen">
+      <div id="BattleField">
+        <div id="OponentSection" class="pokeCard">
+          <div class="PokemonData">
+            <h2 id="oponentCurrentPokemon"></h2>
+            <div class="heatlhContainer">
+              <div id="oponentHealthBar"></div>
+              <div id="oponentHPDisplay"></div>
+            </div>
+          </div>
+
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+            alt="oponentPokemon"
+            id="oponentActiveSprite"
+          />
+
+          <div class="pokemon-details" id="oponentDetails">
+            <p id="oponentHP"></p>
+            <p id="oponentAttack"></p>
+            <p id="oponentDefense"></p>
+            <p id="oponentSpAttack"></p>
+            <p id="oponentSpDefense"></p>
+            <p id="oponentSpeed"></p>
+            <ul id="oponentTypes"></ul>
+          </div>
+        </div>
+
+        <div id="UserSection" class="pokeCard">
+          <div class="PokemonData">
+            <h2 id="userCurrentPokemon"></h2>
+            <div class="heatlhContainer">
+              <div id="userHealthBar"></div>
+              <div id="userHPDisplay"></div>
+            </div>
+          </div>
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/94.png"
+            alt="userPokemon"
+            id="userActiveSprite"
+          />
+
+          <div class="pokemon-details" id="userDetails">
+            <p id="userHP"></p>
+            <p id="userAttack"></p>
+            <p id="userDefense"></p>
+            <p id="userSpAttack"></p>
+            <p id="userSpDefense"></p>
+            <p id="userSpeed"></p>
+            <ul id="userTypes"></ul>
+          </div>
+        </div>
+      </div>
+      <div id="ComandField">
+        <div class="userdialog">
+          <p id="userDialogText"></p>
+        </div>
+        <ul class="options" id="MainOptions">
+          <li>
+            <button id="fightButton">FIGHT</button>
+          </li>
+          <li>
+            <button id="switchButton">SWITCH</button>
+          </li>
+        </ul>
+        <div id="switchPokemonDiv">
+          <div class="switchCard">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+              alt=""
+            />
+
+            <div class="switchCardInfo">
+              <div class="nameAndTypes">
+                <h2>Pikachu</h2>
+                <div class="types"><p>Electric</p><p>Poisson</p></div>
+              </div>
+
+              <div class="healthBar">
+                <div class="healthPercentage"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="switchCard">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+              alt=""
+            />
+
+            <div class="switchCardInfo">
+              <div class="nameAndTypes">
+                <h2>Pikachu</h2>
+                <div class="types"><p>Electric</p></div>
+              </div>
+
+              <div class="healthBar">
+                <div class="healthPercentage"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="switchCard">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+              alt=""
+            />
+
+            <div class="switchCardInfo">
+              <div class="nameAndTypes">
+                <h2>Pikachu</h2>
+                <div class="types"><p>Electric</p></div>
+              </div>
+
+              <div class="healthBar">
+                <div class="healthPercentage"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="switchCard">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+              alt=""
+            />
+
+            <div class="switchCardInfo">
+              <div class="nameAndTypes">
+                <h2>Pikachu</h2>
+                <div class="types"><p>Electric</p></div>
+              </div>
+
+              <div class="healthBar">
+                <div class="healthPercentage"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="switchCard">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+              alt=""
+            />
+
+            <div class="switchCardInfo">
+              <div class="nameAndTypes">
+                <h2>Pikachu</h2>
+                <div class="types"><p>Electric</p></div>
+              </div>
+
+              <div class="healthBar">
+                <div class="healthPercentage"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="selectMoveDiv">
+            <div class="MoveCard">
+                <div class="MoveName">
+                    <h2 class="MoveNameText">Attack 1</h2>
+                    <h2 class="MoveType">Electric</h2>
+                </div>
+                <div class="MoveInfo">
+                    <h2 class="Power">Power: 100</h2>
+                    <h2 class="Acurracy">Acurracy: 90%</h2>
+                    <h2 class="PP">PP: 10/20</h2>
+                    <h2 class="DamageClass">Special</h2>
+                </div>
+            </div>
+
+            <div class="MoveCard">
+                <div class="MoveName">
+                    <h2 class="MoveNameText">Attack 1</h2>
+                    <h2 class="MoveType">Electric</h2>
+                </div>
+                <div class="MoveInfo">
+                    <h2 class="Power">Power: 100</h2>
+                    <h2 class="Acurracy">Acurracy: 90%</h2>
+                    <h2 class="PP">PP: 10/20</h2>
+                    <h2 class="DamageClass">Special</h2>
+                </div>
+            </div>
+
+            <div class="MoveCard">
+                <div class="MoveName">
+                    <h2 class="MoveNameText">Attack 1</h2>
+                    <h2 class="MoveType">Electric</h2>
+                </div>
+                <div class="MoveInfo">
+                    <h2 class="Power">Power: 100</h2>
+                    <h2 class="Acurracy">Acurracy: 90%</h2>
+                    <h2 class="PP">PP: 10/20</h2>
+                    <h2 class="DamageClass">Special</h2>
+                </div>
+            </div>
+
+            <div class="MoveCard">
+                <div class="MoveName">
+                    <h2 class="MoveNameText">Attack 1</h2>
+                    <h2 class="MoveType">Electric</h2>
+                </div>
+                <div class="MoveInfo">
+                    <h2 class="Power">Power: 100</h2>
+                    <h2 class="Acurracy">Acurracy: 90%</h2>
+                    <h2 class="PP">PP: 10/20</h2>
+                    <h2 class="DamageClass">Special</h2>
+                </div>
+            </div>
+        </div>
+        <button id="goBackButton">◀</button>
+      </div>
+    </section>
+  </body>
+</html>

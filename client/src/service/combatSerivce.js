@@ -1,8 +1,9 @@
 import { getTeamForBattle } from "../domain/combatDomain.js";
 var socket = undefined;
-var handleMessageFunctions = [];
+// var handleMessageFunctions = [];
 const SetupConnection = () => {
   socket = new WebSocket("ws://localhost:5176/battle");
+  console.log(socket)
 
   const user = sessionStorage.getItem("username");
   const email = sessionStorage.getItem("email");
@@ -20,11 +21,11 @@ const SetupConnection = () => {
     socket.send(JSON.stringify(identification));
   });
 
-  socket.addEventListener("message", (event) => {
-    const data = JSON.parse(event.data);
-    console.log("Received message:", data);
-    handleMessageFunctions.forEach( async (func) => await func(data));
-  });
+  // socket.addEventListener("message", (event) => {
+  //   const data = JSON.parse(event.data);
+  //   console.log("Received message:", data);
+  //   handleMessageFunctions.forEach( async (func) => await func(data));
+  // });
 
   socket.addEventListener("close", (event) => {
     console.log("websocket disconnected");
@@ -44,6 +45,18 @@ export const initializeWebSocket = () => {
   SetupConnection();
 };
 
-export const addMessageHandler = (func) => {
-  handleMessageFunctions.push(func);
-};
+export const SendAction = (actionType, data) => {
+  const action = {
+    actionType: actionType,
+    index: data,
+  }
+
+  console.log(socket);
+  console.log(JSON.stringify(action))
+
+  socket.send(JSON.stringify(action));
+}
+
+// export const addMessageHandler = (func) => {
+//   handleMessageFunctions.push(func);
+// };

@@ -8,8 +8,9 @@ import {
   setTeams,
 } from "../domain/combatDomain.js";
 import {
-  addMessageHandler,
+  getWebSocket,
   initializeWebSocket,
+  SendAction,
 } from "../service/combatSerivce.js";
 import { getTeamById } from "../service/pokemonTeamService.js";
 
@@ -33,10 +34,7 @@ const setupJoinGame = (connectionResponse) => {
   }
 };
 
-const UpdateUI = (response) => {
-  if (response.type != "teamUpdate") {
-    return;
-  }
+const UpdateUI = () => {
   const userTeam = getUserTeam();
   const oponentTeam = getOponentTeam();
   const userMedia = getUserMedia();
@@ -79,6 +77,22 @@ const UpdateUI = (response) => {
   const userSprite = document.getElementById("userActiveSprite");
   userSprite.src = userMedia[userCurrentIndex].backSprite;
 
+  const userDetails = document.getElementById("userDetails");
+  userSprite.addEventListener("mouseover", (e) => {
+    userDetails.style.display = "block";
+  });
+  userSprite.addEventListener("mouseout", (e) => {
+    userDetails.style.display = "none";
+  });
+
+  const oponentDetails = document.getElementById("oponentDetails");
+  oponentSprite.addEventListener("mouseover", (e) => {
+    oponentDetails.style.display = "block";
+  });
+  oponentSprite.addEventListener("mouseout", (e) => {
+    oponentDetails.style.display = "none";
+  });
+
   //change display stats
   const oponentHP = document.getElementById("oponentHP");
   oponentHP.textContent = `HP: ${oponentTeam.Pokemons[oponentCurrentIndex].HP}`;
@@ -93,6 +107,7 @@ const UpdateUI = (response) => {
   const oponentSpeed = document.getElementById("oponentSpeed");
   oponentSpeed.textContent = `Speed: ${oponentTeam.Pokemons[oponentCurrentIndex].Speed}`;
   const oponentTypes = document.getElementById("oponentTypes");
+  oponentTypes.replaceChildren();
   oponentTeam.Pokemons[oponentCurrentIndex].Types.forEach((type) => {
     const typeLI = document.createElement("li");
     typeLI.textContent = type;
@@ -112,6 +127,7 @@ const UpdateUI = (response) => {
   const userSpeed = document.getElementById("userSpeed");
   userSpeed.textContent = `Speed: ${userTeam.Pokemons[userCurrentIndex].Speed}`;
   const userTypes = document.getElementById("userTypes");
+  userTypes.replaceChildren();
   userTeam.Pokemons[userCurrentIndex].Types.forEach((type) => {
     const typeLI = document.createElement("li");
     typeLI.textContent = type;
@@ -119,14 +135,195 @@ const UpdateUI = (response) => {
   });
 
   //change dialog
-  const userDialog = document.getElementById("userDialogText");
-  userDialog.textContent = `What will ${userTeam.Pokemons[userCurrentIndex].Name} Do`;
+  const userDialogText = document.getElementById("userDialogText");
+  console.log(userDialogText);
+  userDialogText.textContent = `What will ${userTeam.Pokemons[userCurrentIndex].Name} do?`;
+
+  //switch pokemon button
+  const switchButton = document.getElementById("switchButton");
+  const userDialog = document.getElementById("userdialog");
+  const mainOptions = document.getElementById("MainOptions");
+  const switchPokemonDiv = document.getElementById("switchPokemonDiv");
+  const selectMoveDiv = document.getElementById("selectMoveDiv");
+  const goBackButton = document.getElementById("goBackButton");
+  mainOptions.style.display = "flex";
+
+  const switchPokemonLogic = () => {
+    userDialog.style.display = "none";
+    mainOptions.style.display = "none";
+    switchPokemonDiv.style.display = "flex";
+    switchPokemonDiv.replaceChildren();
+
+    userTeam.Pokemons.forEach((pokemon, index) => {
+      if (index != userCurrentIndex) {
+        const newCard = renderSwitchCards(pokemon, userMedia[index], index);
+        newCard.addEventListener("click", (e) => {
+          if (pokemon.HP != 0) {
+            console.log("switched pokemon", index);
+            SendAction("switch", index);
+            userDialog.style.display = "flex";
+            userDialogText.textContent = "Waiting for oponent's Action";
+            mainOptions.style.display = "none";
+            switchPokemonDiv.style.display = "none";
+            selectMoveDiv.style.display = "none";
+            goBackButton.style.display = "none";
+          }
+        });
+        switchPokemonDiv.appendChild(newCard);
+      }
+    });
+  };
+  //switch pokemon if defeated
+  if (userTeam.Pokemons[userCurrentIndex].HP === 0) {
+    switchPokemonLogic();
+  }
+
+  switchButton.addEventListener("click", (e) => {
+    goBackButton.style.display = "block";
+    switchPokemonLogic();
+  });
+
+  //select move button
+  const fightButton = document.getElementById("fightButton");
+
+  fightButton.addEventListener("click", (e) => {
+    goBackButton.style.display = "block";
+    userDialog.style.display = "none";
+    mainOptions.style.display = "none";
+    selectMoveDiv.style.display = "flex";
+    selectMoveDiv.replaceChildren();
+
+    userTeam.Pokemons[userCurrentIndex].Moves.forEach((move, index) => {
+      const newCardMove = renderMoveCard(move);
+      newCardMove.addEventListener("click", (e) => {
+        var audio = new Audio(userMedia[userCurrentIndex].cry);
+        audio.volume = 0.1;
+        audio.play();
+        console.log("move sended", index);
+        SendAction("move", index);
+        userDialog.style.display = "flex";
+        userDialogText.textContent = "Waiting for oponent's Action";
+        mainOptions.style.display = "none";
+        switchPokemonDiv.style.display = "none";
+        selectMoveDiv.style.display = "none";
+        goBackButton.style.display = "none";
+      });
+      selectMoveDiv.appendChild(newCardMove);
+    });
+  });
+
+  goBackButton.addEventListener("click", (e) => {
+    userDialog.style.display = "flex";
+    mainOptions.style.display = "flex";
+    switchPokemonDiv.style.display = "none";
+    selectMoveDiv.style.display = "none";
+    goBackButton.style.display = "none";
+  });
+};
+
+const renderSwitchCards = (pokemon, sprite) => {
+  const card = document.createElement("div");
+  card.classList.add("switchCard");
+
+  if (pokemon.HP === 0) {
+    card.classList.add("faintedPokemon");
+  }
+
+  const spriteForCard = document.createElement("img");
+  spriteForCard.src = sprite.frontSprite;
+  card.appendChild(spriteForCard);
+
+  const switchCardInfo = document.createElement("div");
+  switchCardInfo.classList.add("switchCardInfo");
+  card.appendChild(switchCardInfo);
+
+  const nameAndTypes = document.createElement("div");
+  nameAndTypes.classList.add("nameAndTypes");
+  switchCardInfo.appendChild(nameAndTypes);
+
+  const name = document.createElement("h2");
+  name.textContent = pokemon.Name;
+  nameAndTypes.appendChild(name);
+
+  const types = document.createElement("div");
+  types.classList.add("types");
+  nameAndTypes.appendChild(types);
+
+  pokemon.Types.forEach((t) => {
+    const type = document.createElement("p");
+    type.textContent = t;
+    types.appendChild(type);
+  });
+
+  const healthBar = document.createElement("div");
+  healthBar.classList.add("healthBar");
+  switchCardInfo.appendChild(healthBar);
+
+  const healthPercentage = document.createElement("div");
+  healthPercentage.classList.add("healthPercentage");
+  healthPercentage.style.width = `${
+    (pokemon.HP / pokemon.OriginalStats[0]) * 100
+  }%`;
+  healthBar.appendChild(healthPercentage);
+
+  return card;
+};
+
+const renderMoveCard = (move) => {
+  const card = document.createElement("div");
+  card.classList.add("MoveCard");
+
+  const moveNameDiv = document.createElement("div");
+  moveNameDiv.classList.add("MoveName");
+  card.appendChild(moveNameDiv);
+
+  const moveNameText = document.createElement("h2");
+  moveNameText.classList.add("MoveNameText");
+  moveNameText.textContent = move.Name;
+  moveNameDiv.appendChild(moveNameText);
+
+  const moveType = document.createElement("h2");
+  moveType.classList.add("MoveType");
+  moveType.textContent = move.Type;
+  moveNameDiv.appendChild(moveType);
+
+  const moveInfoDiv = document.createElement("div");
+  moveInfoDiv.classList.add("MoveInfo");
+  card.appendChild(moveInfoDiv);
+
+  const Power = document.createElement("h2");
+  Power.classList.add("Power");
+  Power.textContent = `Power: ${move.Power}`;
+  moveInfoDiv.appendChild(Power);
+
+  const Accuracy = document.createElement("h2");
+  Accuracy.classList.add("Accuracy");
+  Accuracy.textContent = `Accuracy: ${move.Accuracy}`;
+  moveInfoDiv.appendChild(Accuracy);
+
+  const PP = document.createElement("h2");
+  PP.classList.add("PP");
+  PP.textContent = `PP: ${move.PP}/${move.BasePP}`;
+  moveInfoDiv.appendChild(PP);
+
+  const DamageClass = document.createElement("h2");
+  DamageClass.classList.add("DamageClass");
+  DamageClass.textContent = move.MoveClass;
+  moveInfoDiv.appendChild(DamageClass);
+
+  return card;
 };
 
 await getTeamFromQueryString();
 await populatePokemonForBattle();
 
 initializeWebSocket();
-addMessageHandler(setupJoinGame);
-addMessageHandler(setTeams);
-addMessageHandler(UpdateUI);
+
+const currentSocket = getWebSocket();
+
+currentSocket.addEventListener("message", async (event) => {
+  const data = JSON.parse(event.data);
+  console.log("Received message:", data);
+  setupJoinGame(data);
+  await setTeams(data, UpdateUI);
+});

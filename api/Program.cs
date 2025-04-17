@@ -35,7 +35,7 @@ app.Map("/battle", async context =>
 
 async Task HandleWebSocket(WebSocket webSocket)
 {
-    var buffer = new byte[1024 * 4];
+    var buffer = new byte[1024 * 8];
     var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
     var message = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
     userIndetification? currentUser = await waitForUser(message);
@@ -61,6 +61,11 @@ async Task HandleWebSocket(WebSocket webSocket)
             "message": "Waiting for other player to connect"}
             """;
         await SendMessage(webSocket, sendJSON);
+        while (currentGameId == default)
+        {
+            currentGameId = Lobby.GetGameIdByPlayer(currentUser.userData);
+            await Task.Delay(200);
+        }
     }
     else
     {
@@ -79,28 +84,47 @@ async Task HandleWebSocket(WebSocket webSocket)
 
     while (!receiveResult.CloseStatus.HasValue)
     {
-        if(currentGameId != default)
+        if (currentGameId != default)
         {
             var currentGame = Lobby.GetGameById(currentGameId);
             string updatedTeams = $"{{\"type\": \"teamUpdate\", \"player1\": {JsonSerializer.Serialize(currentGame.Player1)}, \"player2\": {JsonSerializer.Serialize(currentGame.Player2)}}}";
-            System.Console.WriteLine(currentGame.Player1.Info);
-            System.Console.WriteLine(currentGame.Player2.Info);
-            System.Console.WriteLine(currentGame.Player1.Team.ActivePokemonIndex);
-            System.Console.WriteLine(currentGame.Player2.Team.ActivePokemonIndex);
-            foreach(var p in currentGame.Player1.Team.Pokemons)
-                System.Console.WriteLine(p);
-            System.Console.WriteLine();
-            foreach(var p in currentGame.Player1.Team.Pokemons)
-                System.Console.WriteLine(p);
+
             await SendMessage(connections[currentGame.Player1.Info], updatedTeams);
             await SendMessage(connections[currentGame.Player2.Info], updatedTeams);
+
+            var buffer1 = new byte[1024 * 8];
+            var buffer2 = new byte[1024 * 8];
+            System.Console.WriteLine($" {currentUser.userData} waiting for result");
+            var receiveResultPlayer1 = connections[currentGame.Player1.Info].ReceiveAsync(new ArraySegment<byte>(buffer1), CancellationToken.None);
+            var receiveResultPlayer2 = connections[currentGame.Player2.Info].ReceiveAsync(new ArraySegment<byte>(buffer2), CancellationToken.None);
+            await Task.WhenAll(receiveResultPlayer1, receiveResultPlayer2);
+
+            System.Console.WriteLine($" {currentUser.userData} received message");
+            System.Console.WriteLine($" {currentUser.userData} received message");
+
+            var messagePlayer1 = Encoding.UTF8.GetString(buffer1, 0, receiveResultPlayer1.Result.Count);
+            var messagePlayer2 = Encoding.UTF8.GetString(buffer2, 0, receiveResultPlayer2.Result.Count);
+
+            var actionDataPlayer1 = JsonSerializer.Deserialize<userAction>(messagePlayer1);
+            var actionDataPlayer2 = JsonSerializer.Deserialize<userAction>(messagePlayer2);
+
+            System.Console.WriteLine(actionDataPlayer1);
+            System.Console.WriteLine(actionDataPlayer2);
+            
+            currentGame.ReceiveAction(actionDataPlayer1.actionType, actionDataPlayer1.index, actionDataPlayer2.actionType, actionDataPlayer2.index);
+            System.Console.WriteLine(currentGame.Player1.Team.ActivePokemonIndex);
+            System.Console.WriteLine(currentGame.Player2.Team.ActivePokemonIndex);
+
+        }
+        else
+        {
+            System.Console.WriteLine($" {currentUser} game not set");
+            receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         }
 
-        receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
         //battle message
     }
-
 }
 static async Task SendMessage(WebSocket webSocket, string message)
 {

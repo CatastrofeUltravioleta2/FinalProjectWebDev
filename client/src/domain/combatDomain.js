@@ -50,6 +50,7 @@ export const populatePokemonForBattle = async () => {
           Power: moveData.power == null ? 0 : moveData.power,
           Accuracy: moveData.accuracy == null ? 0 : moveData.accuracy,
           PP: moveData.pp,
+          BasePP: moveData.pp,
           MoveClass: moveData.damage_class["name"],
           Type: moveData.type["name"],
         };
@@ -126,7 +127,7 @@ export const getTeamForBattle = () => {
   return currentTeamForBattle;
 };
 
-export const setTeams = async (response, ) => {
+export const setTeams = async (response, UpdateUICallback) => {
   const user = sessionStorage.getItem("username");
   const email = sessionStorage.getItem("email");
   const userData = `${user}|${email}`;
@@ -153,6 +154,8 @@ export const setTeams = async (response, ) => {
         console.log(userTeamMedia);
         console.log(oponentTeamMedia);
       }
+
+      UpdateUICallback();
     }
   }
 };
