@@ -1,16 +1,20 @@
-import { getPokemonDataFromId } from "../service/pokemonAPIservice.js";
+import { getAllAbilities } from "../domain/teamEditDomain.js";
+import {
+  getMoveData,
+  getPokemonDataFromId,
+} from "../service/pokemonAPIservice.js";
 
 const getIdFromQueryString = async () => {
   const queryString = window.location.search.slice(1);
   const pokeData = await getPokemonDataFromId(queryString);
   console.log(pokeData);
-  renderPokemonInfo(pokeData);
+  await renderPokemonInfo(pokeData);
 
   var audio = new Audio(pokeData.cries.latest);
   audio.volume = 0.1;
   audio.play();
 };
-const renderPokemonInfo = (pokemonData) => {
+const renderPokemonInfo = async (pokemonData) => {
   const pokemonInfoContainer = document.getElementById("PokemonInfo");
   pokemonInfoContainer.replaceChildren();
 
@@ -70,10 +74,11 @@ const renderPokemonInfo = (pokemonData) => {
   abilitiesUl.id = "Abilities";
   OtherInfo.appendChild(abilitiesUl);
 
-  pokemonData.abilities.forEach((a) => {
+  var allAbilities = getAllAbilities();
+  allAbilities.forEach((a) => {
     const li = document.createElement("li");
     li.classList.add("ability");
-    li.textContent = a.ability.name;
+    li.textContent = a.name;
     abilitiesUl.appendChild(li);
   });
 
@@ -82,7 +87,8 @@ const renderPokemonInfo = (pokemonData) => {
   movesUl.id = "Moves";
   OtherInfo.appendChild(movesUl);
 
-  const firstGenMoves = selectMoves(pokemonData.moves);
+  const firstGenMoves = await selectMoves(pokemonData.moves);
+  console.log(firstGenMoves);
   firstGenMoves.forEach((m) => {
     const li = document.createElement("li");
     li.classList.add("move");
@@ -91,18 +97,25 @@ const renderPokemonInfo = (pokemonData) => {
   });
 };
 
-const selectMoves = (moves) => {
-  return moves.filter((m) => {
-    var isMoveFirstGen = false;
-    m.version_group_details.forEach((v) => {
-      if (
-        v.version_group.name == "red-blue" ||
-        v.version_group.name == "yellow"
-      ) {
-        isMoveFirstGen = true;
-      }
-    });
-    return isMoveFirstGen;
-  });
+const selectMoves = async (moves) => {
+  const IncludeMoves = await Promise.all(
+    moves.map(async (m) => {
+      var moveData = await getMoveData(m.move.url);
+      var isMoveFirstGen = false;
+
+      m.version_group_details.forEach((v) => {
+        if (
+          v.version_group.name == "red-blue" ||
+          v.version_group.name == "yellow"
+        ) {
+          isMoveFirstGen = true;
+        }
+      });
+
+      return isMoveFirstGen && moveData.damage_class["name"] != "status";
+    })
+  );
+
+  return moves.filter((m, index) => IncludeMoves[index]);
 };
 await getIdFromQueryString();

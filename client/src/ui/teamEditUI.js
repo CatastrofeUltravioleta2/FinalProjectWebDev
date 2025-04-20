@@ -24,14 +24,13 @@ const getTeamFromQueryString = async () => {
   await populateTeam(queryString.slice(0, 6));
 };
 
-const generateInitialPokemonCards = () => {
+const generateInitialPokemonCards = async () => {
   const finalTeamSlots = document.getElementById(
     "displayTeamContainer"
   ).children;
+  var dataPokemonCard = await getPokemonDataForCards();
   for (var slot of finalTeamSlots) {
-    const pokemonForSlot = getPokemonDataForCards().find(
-      (p) => p.teamIndex == slot.id
-    );
+    const pokemonForSlot = dataPokemonCard.find((p) => p.teamIndex == slot.id);
     slot.appendChild(createPokemonCard(pokemonForSlot));
   }
 };
@@ -95,7 +94,7 @@ const createPokemonCard = (pokemon) => {
 
   pokemon.abilities.forEach((a) => {
     const opt = document.createElement("option");
-    opt.textContent = a.ability.name;
+    opt.textContent = a.name;
     selectAbility.appendChild(opt);
   });
 
@@ -280,7 +279,7 @@ const setupSendEditedTeam = () => {
     errorMessages.push(document.getElementById(`errorPokemon${i}`));
   }
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     var formHasErrors = false;
 
     for (var i = 0; i < 6; i++) {
@@ -318,7 +317,7 @@ const setupSendEditedTeam = () => {
     e.preventDefault();
     if (!formHasErrors) {
       var pokemonTeam = [];
-      const pokeData = getPokemonDataForCards();
+      const pokeData = await getPokemonDataForCards();
       for (var i = 0; i < 6; i++) {
         const movesUrl = [];
         movesSelectors[i].forEach((m) => {
@@ -330,9 +329,6 @@ const setupSendEditedTeam = () => {
         pokemonTeam.push({
           id: pokeData[i].id,
           ability: abilitiesSelectors[i].value,
-          abilityURL: pokeData[i].abilities.find(
-            (a) => a.ability.name == abilitiesSelectors[i].value
-          ).ability.url,
           moves: movesSelectors[i].map((move) => move.value),
           movesURL: movesUrl,
         });
@@ -350,9 +346,7 @@ const setupSendEditedTeam = () => {
       console.log(pokemonTeam);
       console.log(`${user}|${email}`);
 
-      setTimeout(() => {
-        window.location.replace("homepage.html");
-      }, 10000);
+      window.location.replace("homepage.html");
     }
   });
 };
@@ -362,7 +356,7 @@ if (sessionStorage.getItem("username") == null) {
 }
 
 await getTeamFromQueryString();
-generateInitialPokemonCards();
+await generateInitialPokemonCards();
 setupCardSwithListener();
 setupTeamViewButton();
 setupArrowButtons();

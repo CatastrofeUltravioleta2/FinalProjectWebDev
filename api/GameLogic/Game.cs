@@ -6,20 +6,127 @@ public class Game
     public Player? Player1 { get; set; } = null;
     public Player? Player2 { get; set; } = null;
     public Player currentPlayer { get; set; }
-    public Dictionary<string, Dictionary<string, double>> TypeChart { get; set; }
     Random random = new Random();
     public bool isFull => Player1 is not null && Player2 is not null;
 
     public Game(Guid id)
     {
         Id = id;
-        setupTypeChart();
+    }
+    public void ReceiveAction(string actionPlayer1, int indexPlayer1, string actionPlayer2, int indexPlayer2)
+    {
+        if (actionPlayer1 == "switch")
+        {
+            System.Console.WriteLine($"switching {indexPlayer1} player 1");
+            Player1.Team.SwticActivePokemon(indexPlayer1);
+        }
+        if (actionPlayer2 == "switch")
+        {
+            System.Console.WriteLine($"switching {indexPlayer2} player 2");
+            Player2.Team.SwticActivePokemon(indexPlayer2);
+        }
 
+        System.Console.WriteLine("calculating damage");
+        pokemonBattle activePokemon1 = Player1.Team.ActivePokemmon();
+        pokemonBattle activePokemon2 = Player2.Team.ActivePokemmon();
+
+        activePokemon1.Ability.ability.StatModifiers(activePokemon1, activePokemon2, null);
+        activePokemon1.Ability.ability.StatModifiers(activePokemon2, activePokemon1, null);
+
+        bool pokemon1Attacking = actionPlayer1 == "move" && !activePokemon1.IsFainted;
+        bool pokemon2Attacking = actionPlayer2 == "move" && !activePokemon2.IsFainted;
+
+        if (pokemon1Attacking && !pokemon2Attacking)
+        {
+            ApplyMove(activePokemon1, activePokemon2, activePokemon1.Moves[indexPlayer1]);
+        }
+        else if (!pokemon1Attacking && pokemon2Attacking)
+        {
+            ApplyMove(activePokemon2, activePokemon1, activePokemon2.Moves[indexPlayer2]);
+        }
+        else if (pokemon1Attacking && pokemon2Attacking)
+        {
+            Move movePlayer1 = activePokemon1.Moves[indexPlayer1];
+            Move movePlayer2 = activePokemon2.Moves[indexPlayer2];
+
+            if (activePokemon1.Speed > activePokemon2.Speed)
+            {
+                ApplyMove(activePokemon1, activePokemon2, movePlayer1);
+                if (!activePokemon2.IsFainted)
+                    ApplyMove(activePokemon2, activePokemon1, movePlayer2);
+            }
+            else if (activePokemon1.Speed < activePokemon2.Speed)
+            {
+                ApplyMove(activePokemon2, activePokemon1, movePlayer2);
+                if (!activePokemon1.IsFainted)
+                    ApplyMove(activePokemon1, activePokemon2, movePlayer1);
+            }
+            else
+            {
+                int speedTieBreaker = random.Next(1, 3);
+                if (speedTieBreaker == 1)
+                {
+                    ApplyMove(activePokemon1, activePokemon2, movePlayer1);
+                    if (!activePokemon2.IsFainted)
+                        ApplyMove(activePokemon2, activePokemon1, movePlayer2);
+                }
+                else
+                {
+                    ApplyMove(activePokemon2, activePokemon1, movePlayer2);
+                    if (!activePokemon1.IsFainted)
+                        ApplyMove(activePokemon1, activePokemon2, movePlayer1);
+                }
+            }
+        }
+    }
+    public void ApplyMove(pokemonBattle attacker, pokemonBattle defender, Move move)
+    {
+        int rawDamage = CalculateDamage(attacker, defender, move);
+        double boostedAbilityDamage = attacker.Ability.ability.DamageModifier(rawDamage, attacker, defender, move);
+        double damageReduction = defender.Ability.ability.DamagaReceivedModifier(rawDamage, attacker, defender, move);
+
+        int finalDamage = Math.Max(0, (int)damageReduction);
+        defender.HP = Math.Max(0, defender.HP - finalDamage);
+
+        attacker.Moves.First(m => m.Name == move.Name).PP--;
     }
 
-    public void setupTypeChart()
+    public int CalculateDamage(pokemonBattle attacker, pokemonBattle defender, Move move)
     {
-        TypeChart = new Dictionary<string, Dictionary<string, double>>() {
+        int randomChance = random.Next(0, 101);
+        System.Console.WriteLine(move.Name);
+        System.Console.WriteLine($"{randomChance} / acurracy {move.Accuracy}");
+        if (randomChance < move.Accuracy || move.PP > 0)
+        {
+            // System.Console.WriteLine("attacker");
+            // System.Console.WriteLine(attacker);
+            // System.Console.WriteLine("defense");
+            // System.Console.WriteLine(defender);
+            int effectiveAStat = move.MoveClass == "physical" ? attacker.Attack : attacker.SpecialAttack;
+            int effectiveDStat = move.MoveClass == "physical" ? defender.Defense : defender.SpecialDefense;
+            double CriticalMultiplier = random.Next(1, 25) == 1 ? 1.5 : 1;
+            double randomMultiplier = (double)random.Next(85, 101) / 100;
+            double STAB = attacker.Types.Contains(move.Type) ? 1.5 : 1;
+            double TypeEffectiveness = 1;
+            foreach (var type in defender.Types)
+            {
+                if (TypeChartDisplay.TypeChart[move.Type].ContainsKey(type))
+                    TypeEffectiveness *= TypeChartDisplay.TypeChart[move.Type][type];
+            }
+            //System.Console.WriteLine($"A = {effectiveAStat} / D = {effectiveDStat} / crit = {CriticalMultiplier} / rand = {randomMultiplier} / STAB = {STAB} / type = {TypeEffectiveness}");
+            double outputDamage = ((22 * move.Power * ((double)effectiveAStat / effectiveDStat) / 50) + 2) * CriticalMultiplier * randomMultiplier * STAB * TypeEffectiveness;
+            System.Console.WriteLine($"damage = {outputDamage}");
+            return (int)outputDamage;
+        }
+
+        return 0;
+    }
+
+}
+
+public static class TypeChartDisplay
+{
+    public static Dictionary<string, Dictionary<string, double>> TypeChart = new Dictionary<string, Dictionary<string, double>>() {
     { "normal", new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase) {
         {"rock", 0.5},
         {"ghost", 0.0},
@@ -194,108 +301,4 @@ public class Game
         {"steel", 0.5}
     }}
         };
-    }
-    public void ReceiveAction(string actionPlayer1, int indexPlayer1, string actionPlayer2, int indexPlayer2)
-    {
-        if (actionPlayer1 == "switch")
-        {
-            System.Console.WriteLine($"switching {indexPlayer1} player 1");
-            Player1.Team.SwticActivePokemon(indexPlayer1);
-        }
-        if (actionPlayer2 == "switch")
-        {
-            System.Console.WriteLine($"switching {indexPlayer2} player 2");
-            Player2.Team.SwticActivePokemon(indexPlayer2);
-        }
-
-        System.Console.WriteLine("calculating damage");
-        pokemonBattle activePokemon1 = Player1.Team.ActivePokemmon();
-        pokemonBattle activePokemon2 = Player2.Team.ActivePokemmon();
-
-        if (actionPlayer1 == "move" && actionPlayer2 != "move")
-        {
-            if (!activePokemon1.IsFainted)
-            {
-                Move movePlayer1 = activePokemon1.Moves[indexPlayer1];
-                activePokemon2.HP -= CalculateDamage(activePokemon1, activePokemon2, movePlayer1);
-            }
-        }
-        else if (actionPlayer1 != "move" && actionPlayer2 == "move")
-        {
-            if (!activePokemon2.IsFainted)
-            {
-                Move movePlayer2 = activePokemon2.Moves[indexPlayer2];
-                activePokemon1.HP -= CalculateDamage(activePokemon2, activePokemon1, movePlayer2);
-            }
-        }
-        else if (actionPlayer1 == "move" && actionPlayer2 == "move")
-        {
-            Move movePlayer1 = activePokemon1.Moves[indexPlayer1];
-            Move movePlayer2 = activePokemon2.Moves[indexPlayer2];
-            if (activePokemon1.Speed > activePokemon2.Speed)
-            {
-                activePokemon2.HP -= CalculateDamage(activePokemon1, activePokemon2, movePlayer1);
-                if (!activePokemon2.IsFainted)
-                    activePokemon1.HP -= CalculateDamage(activePokemon2, activePokemon1, movePlayer2);
-            }
-            else if (activePokemon1.Speed < activePokemon2.Speed)
-            {
-                activePokemon1.HP -= CalculateDamage(activePokemon2, activePokemon1, movePlayer2);
-                if (!activePokemon1.IsFainted)
-                    activePokemon2.HP -= CalculateDamage(activePokemon1, activePokemon2, movePlayer1);
-            }
-            else
-            {
-                int speedTieBreaker = random.Next(1, 3);
-                if (speedTieBreaker == 1)
-                {
-                    activePokemon2.HP -= CalculateDamage(activePokemon1, activePokemon2, movePlayer1);
-                    if (!activePokemon2.IsFainted)
-                        activePokemon1.HP -= CalculateDamage(activePokemon2, activePokemon1, movePlayer2);
-                }
-                else
-                {
-                    activePokemon1.HP -= CalculateDamage(activePokemon2, activePokemon1, movePlayer2);
-                    if (!activePokemon1.IsFainted)
-                        activePokemon2.HP -= CalculateDamage(activePokemon1, activePokemon2, movePlayer1);
-                }
-            }
-            if(activePokemon1.HP < 0) activePokemon1.HP = 0;
-            if(activePokemon2.HP < 0) activePokemon2.HP = 0;
-        }
-
-    }
-
-    public int CalculateDamage(pokemonBattle attacker, pokemonBattle defender, Move move)
-    {
-        int randomChance = random.Next(0, 101);
-        System.Console.WriteLine(move.Name);
-        System.Console.WriteLine($"{randomChance} / acurracy {move.Accuracy}");
-        if (randomChance < move.Accuracy || move.PP > 0)
-        {
-            // System.Console.WriteLine("attacker");
-            // System.Console.WriteLine(attacker);
-            // System.Console.WriteLine("defense");
-            // System.Console.WriteLine(defender);
-            int effectiveAStat = move.MoveClass == "physical" ? attacker.Attack : attacker.SpecialAttack;
-            int effectiveDStat = move.MoveClass == "physical" ? defender.Defense : defender.SpecialDefense;
-            double CriticalMultiplier = random.Next(1, 25) == 1 ? 1.5 : 1;
-            double randomMultiplier = (double)random.Next(85, 101) / 100;
-            double STAB = attacker.Types.Contains(move.Type) ? 1.5 : 1;
-            double TypeEffectiveness = 1;
-            foreach (var type in defender.Types)
-            {
-                if (TypeChart[move.Type].ContainsKey(type))
-                    TypeEffectiveness *= TypeChart[move.Type][type];
-            }
-            //System.Console.WriteLine($"A = {effectiveAStat} / D = {effectiveDStat} / crit = {CriticalMultiplier} / rand = {randomMultiplier} / STAB = {STAB} / type = {TypeEffectiveness}");
-            double outputDamage = ((22 * move.Power * ( (double) effectiveAStat / effectiveDStat) / 50) + 2) * CriticalMultiplier * randomMultiplier * STAB * TypeEffectiveness;
-            System.Console.WriteLine($"damage = {outputDamage}");
-            attacker.Moves.First(m => m.Name == move.Name).PP -= 1;
-            return (int)outputDamage;
-        }
-
-        return 0;
-    }
-
 }

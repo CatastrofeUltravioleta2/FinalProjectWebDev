@@ -110,10 +110,36 @@ async Task HandleWebSocket(WebSocket webSocket)
 
             System.Console.WriteLine(actionDataPlayer1);
             System.Console.WriteLine(actionDataPlayer2);
-            
+
             currentGame.ReceiveAction(actionDataPlayer1.actionType, actionDataPlayer1.index, actionDataPlayer2.actionType, actionDataPlayer2.index);
+
+
             System.Console.WriteLine(currentGame.Player1.Team.ActivePokemonIndex);
             System.Console.WriteLine(currentGame.Player2.Team.ActivePokemonIndex);
+
+            bool player1Lost = currentGame.Player1.Team.AllFainted();
+            bool player2Lost = currentGame.Player2.Team.AllFainted();
+
+            if (player1Lost || player2Lost)
+            {
+                var winner = player1Lost ? currentGame.Player2.Info : currentGame.Player1.Info;
+                string gameOverMessage = $"{{\"type\": \"gameOver\", \"winner\": {winner}}}";
+
+                await SendMessage(connections[currentGame.Player1.Info], gameOverMessage);
+                await SendMessage(connections[currentGame.Player2.Info], gameOverMessage);
+
+                SaveMatch(currentGame, winner);
+
+                await connections[currentGame.Player1.Info].CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+                await connections[currentGame.Player2.Info].CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+
+                connections.Remove(currentGame.Player1.Info);
+                connections.Remove(currentGame.Player2.Info);
+                Players.Remove(currentGame.Player1.Info);
+                Players.Remove(currentGame.Player2.Info);
+
+                return;
+            }
 
         }
         else
@@ -125,6 +151,20 @@ async Task HandleWebSocket(WebSocket webSocket)
 
         //battle message
     }
+}
+static void SaveMatch(Game currentGame, string winner)
+{
+    Match matchRecord = new Match(currentGame.Id, currentGame.Player1, currentGame.Player2, winner);
+    List<Match> allMatches = new List<Match>();
+    if (File.Exists("matchesInfo.json"))
+    {
+        var json = File.ReadAllText("matchesInfo.json");
+        allMatches.AddRange(JsonSerializer.Deserialize<List<Match>>(json));
+    }
+    allMatches.Add(matchRecord);
+    File.WriteAllText("matchesInfo.json", JsonSerializer.Serialize(allMatches));
+    
+
 }
 static async Task SendMessage(WebSocket webSocket, string message)
 {
@@ -154,6 +194,7 @@ static async Task<userIndetification> waitForUser(string message)
 
 string userInfoFile = "userInfo.json";
 string teamsFile = "teamsInfo.json";
+string matchesFile = "matchesInfo.json";
 
 List<userAccount> users = new();
 List<pokemonTeam> allTeams = new();

@@ -1,8 +1,8 @@
 import {
-  getAbilityData,
   getMoveData,
   getPokemonDataFromId,
 } from "../service/pokemonAPIservice.js";
+import { getAllAbilities } from "./teamEditDomain.js";
 
 var currentTeam = {};
 var currentTeamForBattle = {};
@@ -57,10 +57,8 @@ export const populatePokemonForBattle = async () => {
       })
     );
 
-    var abilityData = await getAbilityData(pokemon.abilityURL);
-    var effect = abilityData.effect_entries.findIndex(
-      (aData) => aData.language["name"] == "en"
-    );
+    var allAbilities = getAllAbilities();
+    var abilityData = pokemon.ability;
     const RealHP =
       Math.floor(
         ((2 * pokeData.stats[0].base_stat + 15.5 + Math.floor(85 / 4)) * 50) /
@@ -113,8 +111,8 @@ export const populatePokemonForBattle = async () => {
       Speed: RealSeped,
       Moves: pokemonMoves,
       Ability: {
-        Name: abilityData.name,
-        Effect: abilityData.effect_entries[effect]["short_effect"],
+        Name: pokemon.ability,
+        Effect: allAbilities.find(ab => ab.name == pokemon.ability).effect,
       },
     };
   });
