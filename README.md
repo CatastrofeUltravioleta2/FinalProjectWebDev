@@ -21,30 +21,22 @@
     - [x] User can add and remove pokemons from the team
     - [x] User can save teams to the local storage and acces them later (C# API)
     - [x] User can edit each pokemon individually adding moves, and abilities.
-    - [-] Basic CSS styling / color correction and themes for page.
+    - [x] Basic CSS styling / color correction and themes for page.
 3. ## April 09 (45%)
-    - [ ] User can enter into single battle, test matches
+    - [x] User can enter into single battle, test matches
     - [x] User can connect with other players (basic multiplayer)
-    - [ ] Pokemons can attack and do damage based on their types and other variables.
-    - [ ] User can attack or change pokemons in a fight.
-    - [ ] User can win a match if all opposing pokemon are defeated.
-    - [ ] Upgraded CSS for pages.
+    - [x] Pokemons can attack and do damage based on their types and other variables.
+    - [x] User can attack or change pokemons in a fight.
+    - [x] User can win a match if all opposing pokemon are defeated.
+    - [x] Upgraded CSS for pages.
 4. ## April 12 (60%)
-    - [ ] User can load battles into memory and watch battle history and battle logs.
-    - [ ] User can watch past matches.
-    - [ ] User can enter a lobby and wait for other players.
-    - [ ] User can engage in double battles. 
+    - [x] User can load battles into memory and watch battle history and battle logs.
+    - [x] User can enter a lobby and wait for other players.. 
     - [ ] Finalize CSS details.
 5. ## April 16 (75%)
-    - [ ] User can inflict status effects on rival pokemon
-    - [ ] User's pokemon can use abilities in combat and create buffs and debuffs.
-    - [ ] User can see pokemon information in battle.
-    - [ ] User can spectate other battles. 
-    - [ ] User can edit profile details.
+    - [x] User's pokemon can use abilities in combat and create buffs and debuffs.
+    - [x] User can see pokemon information in battle.
 6. ## April 19 (90%)
-    - [ ] User can appear on rankings and see best rated player.
-    - [ ] User can earn achievements. 
-    - [ ] User can add friends and challenge them.
     - [ ] User can see page on mobile device.
     - [ ] Polish UI details. 
     - [ ] Host page on GitHub.
