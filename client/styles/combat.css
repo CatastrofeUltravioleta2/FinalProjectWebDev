@@ -341,3 +341,12 @@ nav a {
           text-align: center;
       }
   }
+
+  .outOfPP {
+    background-color: gray;
+  }
+
+  #gameOver{
+    display: none;
+    margin: auto;
+  }

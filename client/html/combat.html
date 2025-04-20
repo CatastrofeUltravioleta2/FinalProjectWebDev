@@ -7,6 +7,12 @@
     <script type="module" src="/client/src/ui/combatUI.js"></script>
     <script type="module" src="/client/src/domain/combatDomain.js"></script>
     <script type="module" src="/client/src/service/combatSerivce.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Rubik+Iso&display=swap"
+      rel="stylesheet"
+    />
     <title>Combat</title>
   </head>
   <body>
@@ -21,6 +27,7 @@
       </nav>
     </header>
     <section id="connectionResponse"></section>
+    <search id="gameOver"></search>
     <section id="BattleScreen">
       <div id="BattleField">
         <div id="OponentSection" class="pokeCard">
@@ -32,11 +39,7 @@
             </div>
           </div>
 
-          <img
-            src=""
-            alt="oponentPokemon"
-            id="oponentActiveSprite"
-          />
+          <img src="" alt="oponentPokemon" id="oponentActiveSprite" />
 
           <div class="pokemon-details" id="oponentDetails">
             <p id="oponentHP"></p>
@@ -45,8 +48,7 @@
             <p id="oponentSpAttack"></p>
             <p id="oponentSpDefense"></p>
             <p id="oponentSpeed"></p>
-            <ul id="oponentTypes">
-            </ul>
+            <ul id="oponentTypes"></ul>
           </div>
         </div>
 
@@ -58,11 +60,7 @@
               <div id="userHPDisplay"></div>
             </div>
           </div>
-          <img
-            src=""
-            alt="userPokemon"
-            id="userActiveSprite"
-          />
+          <img src="" alt="userPokemon" id="userActiveSprite" />
 
           <div class="pokemon-details" id="userDetails">
             <p id="userHP"></p>
@@ -71,8 +69,7 @@
             <p id="userSpAttack"></p>
             <p id="userSpDefense"></p>
             <p id="userSpeed"></p>
-            <ul id="userTypes">
-            </ul>
+            <ul id="userTypes"></ul>
           </div>
         </div>
       </div>
@@ -88,12 +85,8 @@
             <button id="switchButton">SWITCH</button>
           </li>
         </ul>
-        <div id="switchPokemonDiv">
-
-        </div>
-        <div id="selectMoveDiv">
-
-        </div>
+        <div id="switchPokemonDiv"></div>
+        <div id="selectMoveDiv"></div>
         <button id="goBackButton">◀</button>
       </div>
     </section>

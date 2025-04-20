@@ -196,17 +196,19 @@ const UpdateUI = () => {
     userTeam.Pokemons[userCurrentIndex].Moves.forEach((move, index) => {
       const newCardMove = renderMoveCard(move);
       newCardMove.addEventListener("click", (e) => {
-        var audio = new Audio(userMedia[userCurrentIndex].cry);
-        audio.volume = 0.1;
-        audio.play();
-        console.log("move sended", index);
-        SendAction("move", index);
-        userDialog.style.display = "flex";
-        userDialogText.textContent = "Waiting for oponent's Action";
-        mainOptions.style.display = "none";
-        switchPokemonDiv.style.display = "none";
-        selectMoveDiv.style.display = "none";
-        goBackButton.style.display = "none";
+        if (move.PP > 0) {
+          var audio = new Audio(userMedia[userCurrentIndex].cry);
+          audio.volume = 0.1;
+          audio.play();
+          console.log("move sended", index);
+          SendAction("move", index);
+          userDialog.style.display = "flex";
+          userDialogText.textContent = "Waiting for oponent's Action";
+          mainOptions.style.display = "none";
+          switchPokemonDiv.style.display = "none";
+          selectMoveDiv.style.display = "none";
+          goBackButton.style.display = "none";
+        }
       });
       selectMoveDiv.appendChild(newCardMove);
     });
@@ -273,6 +275,10 @@ const renderMoveCard = (move) => {
   const card = document.createElement("div");
   card.classList.add("MoveCard");
 
+  if ((move.PP == 0)) {
+    card.classList.add("outOfPP");
+  }
+
   const moveNameDiv = document.createElement("div");
   moveNameDiv.classList.add("MoveName");
   card.appendChild(moveNameDiv);
@@ -314,6 +320,27 @@ const renderMoveCard = (move) => {
   return card;
 };
 
+const handleGameOver = (data) => {
+  console.log("aaaaaaaaaaaaaaaaa")
+  const header = document.getElementById("header");
+  const gameOverDiv = document.getElementById("gameOver");
+  const gameScreen = document.getElementById("BattleScreen");
+
+  gameOverDiv.replaceChildren();
+
+  header.style.display = "flex";
+  gameOverDiv.style.display = "flex";
+  gameScreen.style.display = "none";
+
+  const gameOver = document.createElement("h1");
+  gameOver.textContent = `Game Over!`;
+  gameOverDiv.appendChild(gameOver);
+
+  const winnerTitle = document.createElement("h2");
+  winnerTitle.textContent = `Winner: ${data.winner}`;
+  gameOverDiv.appendChild(winnerTitle);
+};
+
 await getTeamFromQueryString();
 await populatePokemonForBattle();
 
@@ -324,6 +351,11 @@ const currentSocket = getWebSocket();
 currentSocket.addEventListener("message", async (event) => {
   const data = JSON.parse(event.data);
   console.log("Received message:", data);
+
+  if (data.type == "gameOver") {
+    handleGameOver(data);
+  }
+
   setupJoinGame(data);
   await setTeams(data, UpdateUI);
 });

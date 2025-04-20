@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
 public class Ability
 {
     public string Name { get; set; }
     public string Effect { get; set; }
+
+    [JsonIgnore]
     public IAbility ability {get;set;}
     public Ability(string name, string effect)
     {

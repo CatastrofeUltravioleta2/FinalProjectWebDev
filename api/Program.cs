@@ -97,6 +97,10 @@ async Task HandleWebSocket(WebSocket webSocket)
             System.Console.WriteLine($" {currentUser.userData} waiting for result");
             var receiveResultPlayer1 = connections[currentGame.Player1.Info].ReceiveAsync(new ArraySegment<byte>(buffer1), CancellationToken.None);
             var receiveResultPlayer2 = connections[currentGame.Player2.Info].ReceiveAsync(new ArraySegment<byte>(buffer2), CancellationToken.None);
+
+            if(receiveResultPlayer1.Result.MessageType == WebSocketMessageType.Close || receiveResultPlayer2.Result.MessageType == WebSocketMessageType.Close)
+                return;
+
             await Task.WhenAll(receiveResultPlayer1, receiveResultPlayer2);
 
             System.Console.WriteLine($" {currentUser.userData} received message");
@@ -127,11 +131,33 @@ async Task HandleWebSocket(WebSocket webSocket)
 
                 await SendMessage(connections[currentGame.Player1.Info], gameOverMessage);
                 await SendMessage(connections[currentGame.Player2.Info], gameOverMessage);
+                System.Console.WriteLine( $"message sent game over", winner);
 
                 SaveMatch(currentGame, winner);
 
-                await connections[currentGame.Player1.Info].CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
-                await connections[currentGame.Player2.Info].CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+                if(connections.TryGetValue(currentGame.Player1.Info, out var socket1) && socket1.State == WebSocketState.Open)
+                {
+                    try{
+                        await socket1.CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+                    }
+                    catch
+                    {
+                        System.Console.WriteLine($" {currentUser.userData} connection closed with error");
+                    }
+                }
+
+                if(connections.TryGetValue(currentGame.Player2.Info, out var socket2) && socket2.State == WebSocketState.Open)
+                {
+                    try{
+                        await socket2.CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+                    }
+                    catch
+                    {
+                        System.Console.WriteLine($" {currentUser.userData} connection closed with error");
+                    }
+                }
+                
+                System.Console.WriteLine($" {currentUser.userData} closing");
 
                 connections.Remove(currentGame.Player1.Info);
                 connections.Remove(currentGame.Player2.Info);
@@ -163,7 +189,7 @@ static void SaveMatch(Game currentGame, string winner)
     }
     allMatches.Add(matchRecord);
     File.WriteAllText("matchesInfo.json", JsonSerializer.Serialize(allMatches));
-    
+
 
 }
 static async Task SendMessage(WebSocket webSocket, string message)

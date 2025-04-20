@@ -1,5 +1,6 @@
 :root{
-
+    --background-color: #211e3d;
+    --margin-background: #AAA3D9;
 }
 
 body{
@@ -7,6 +8,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--background-color);
 }
 
 #Main-login{
@@ -17,6 +19,7 @@ body{
     border-radius: 1em;
     margin: 2em;
     margin-top: 5em;
+    background-color: var(--margin-background);
 
     img{
         height: 35em;
