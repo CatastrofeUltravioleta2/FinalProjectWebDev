@@ -1,67 +1,179 @@
-:root{
-    --background-color: #211e3d;
-    --margin-background: #AAA3D9;
+:root {
+  --background-color: #211e3d;
+  --margin-background: #aaa3d9;
+  --softPink: #e890d1;
+  --shadowPink: #99618a;
+  --purpleDarker: #7c78e0;
+  --softTextColor: #eedcb6;
+  --darkTextColor: #171131;
+  --inputBackground: rgb(239, 224, 246);
+  --inputBackgroundHover: rgb(235, 196, 255);
 }
 
-body{
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--background-color);
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
 }
 
-#Main-login{
-    margin: auto;
+#Main-login {
+  position: relative;
+  margin: auto;
+  width: 50em;
+  height: 85vh;
+  background: var(--margin-background);
+  overflow: hidden;
+  border-radius: 1em;
+  display: block;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    transition: left 0.6s ease-out;
+  }
+}
+
+#form-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+}
+
+#Main-login.swap #form-container {
+  left: 50%;
+}
+
+#Main-login.swap img {
+  left: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1em;
+
+  div {
     display: flex;
-    flex-direction: row;
+    border: none;
+    justify-content: space-between;
+    margin: 0.5em;
+    background-color: var(--inputBackground);
     border-style: solid;
-    border-radius: 1em;
-    margin: 2em;
-    margin-top: 5em;
-    background-color: var(--margin-background);
+    border-radius: 0.5em;
+    width: 90%;
+    padding: 1em;
+    transition: 0.5s;
+  }
 
-    img{
-        height: 35em;
-        border-radius: 0.8em;
-    }
-}
+  div:hover {
+    background-color: var(--inputBackgroundHover);
+    border: none;
+    scale: 1.05;
+    transition: 0.5s;
+  }
 
-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 1em;
-
-    div{
-        margin: 0.5em;
-        border-style: solid;
-        border-radius: 0.5em;
-        padding: 1em;
-    }
-
-    legend{
-        text-align: center;
-        font-size: 1.5em;
-    }
-
-    input{
-        text-align: center;
-    }
-}
-
-#login-form{
-    display: flex;
-}
-
-#createAccount-form{
-    display: none;
-}
-
-.ErrorMessage{
-    display: none;
+  legend {
     text-align: center;
-    margin: 0;
-    margin-top: 0.5em;
-    color: red;
+    font-size: 2em;
+    font-weight: bold;
+    font-family: "Rubik Iso";
+    color: var(--darkTextColor);
+  }
+
+  label {
+    font-family: "Jersey 10";
+    font-size: 1.2em;
+    color: var(--darkTextColor);
+    width: 20%;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select {
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 0.5em;
+    border: none;
+    width: 60%;
+    font-size: 1.25em;
+    font-family: "Jersey 10";
+    background-color: var(--softTextColor);
+  }
+}
+
+#login-form {
+  display: flex;
+}
+
+#createAccount-form {
+  display: none;
+}
+
+.ErrorMessage {
+  display: none;
+  text-align: center;
+  margin: 0;
+  margin-top: 0.5em;
+  color: red;
+}
+
+.switchButton {
+  margin: 1em;
+  border: none;
+  background-color: var(--shadowPink);
+  border-radius: 0.75em;
+  width: 15em;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    display: block;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    background-color: var(--softPink);
+    transform: translateY(-0.5em);
+    font-family: "Jersey 10";
+    font-size: 1.5em;
+  }
+}
+
+.switchButton:active span {
+  transform: translateY(-0.1em);
+}
+
+input[type="submit"] {
+  text-align: center;
+  font-family: "Tiny5";
+  width: 50%;
+  margin-top: 2em;
+  height: 2em;
+  border-radius: 0.5em;
+  font-size: 1.3em;
+  border: none;
+  background-color: var(--purpleDarker);
+  color: var(--softTextColor);
+  font-weight: bold;
+  box-shadow: 0.2em 0.2em 0.1em;
+  transition: 0.5s;
+}
+
+input[type="submit"]:hover {
+  scale: 1.2;
+  width: 80%;
+  background-color: var(--softTextColor);
+  color: var(--purpleDarker);
+  box-shadow: 0.2em 0.2em 0.1em;
+  transition: 0.5s;
 }

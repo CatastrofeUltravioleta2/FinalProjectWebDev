@@ -12,13 +12,16 @@ const SwitchCreateAccountOrLogIn = () => {
 
   const CreateAccountForm = document.getElementById("createAccount-form");
   const LogInForm = document.getElementById("login-form");
+  const mainLogin = document.getElementById("Main-login");
 
   SwitchToCreateAccountButton.addEventListener("click", (e) => {
+    mainLogin.classList.add("swap");
     CreateAccountForm.style.display = "flex";
     LogInForm.style.display = "none";
   });
 
   SwitchToLogInButton.addEventListener("click", (e) => {
+    mainLogin.classList.remove("swap");
     CreateAccountForm.style.display = "none";
     LogInForm.style.display = "flex";
   });
