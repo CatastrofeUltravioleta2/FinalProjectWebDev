@@ -59,6 +59,7 @@ const createPokemonCard = (pokemon) => {
   pokemon.types.forEach((t) => {
     const type = document.createElement("li");
     type.textContent = t;
+    type.classList.add(t)
     types.appendChild(type);
   });
 
@@ -108,21 +109,26 @@ const createPokemonCard = (pokemon) => {
   movesLabel.textContent = "select moves for the pokemon";
   movesDiv.appendChild(movesLabel);
 
+  const moveSelectOptions = document.createElement("div")
+  moveSelectOptions.id = `moveSelectOptions${pokemon.teamIndex}`;
+  moveSelectOptions.classList.add("moveSelectOptions")
+  movesDiv.appendChild(moveSelectOptions);
+
   const selectMove1 = document.createElement("select");
   selectMove1.id = `selectMove1/${pokemon.teamIndex}`;
-  movesDiv.appendChild(selectMove1);
+  moveSelectOptions.appendChild(selectMove1);
 
   const selectMove2 = document.createElement("select");
   selectMove2.id = `selectMove2/${pokemon.teamIndex}`;
-  movesDiv.appendChild(selectMove2);
+  moveSelectOptions.appendChild(selectMove2);
 
   const selectMove3 = document.createElement("select");
   selectMove3.id = `selectMove3/${pokemon.teamIndex}`;
-  movesDiv.appendChild(selectMove3);
+  moveSelectOptions.appendChild(selectMove3);
 
   const selectMove4 = document.createElement("select");
   selectMove4.id = `selectMove4/${pokemon.teamIndex}`;
-  movesDiv.appendChild(selectMove4);
+  moveSelectOptions.appendChild(selectMove4);
 
   const selectMoves = [selectMove1, selectMove2, selectMove3, selectMove4];
 
@@ -270,11 +276,12 @@ const setupSendEditedTeam = () => {
   const abilitiesSelectors = [];
   const movesSelectors = [];
   const errorMessages = [];
+  console.log(document.getElementById("moveSelectOptions1").children)
 
   for (var i = 0; i < 6; i++) {
     abilitiesSelectors.push(document.getElementById(`selectAbilities${i}`));
     movesSelectors.push(
-      Array.from(document.getElementById(`movesDiv${i}`).children).slice(1)
+      Array.from(document.getElementById(`moveSelectOptions${i}`).children).slice(1)
     );
     errorMessages.push(document.getElementById(`errorPokemon${i}`));
   }

@@ -7,23 +7,24 @@
     <script type="module" src="/client/src/ui/LoginUI.js"></script>
     <script type="module" , src="/client/src/service/loginService.js"></script>
     <script type="module" src="/client/src/domain/loginDomain.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Rubik+Iso&family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pacifico&family=Rubik+Iso&family=Tiny5&display=swap"
+      rel="stylesheet"
+    />
     <title>Login Page</title>
   </head>
   <body>
     <div id="Main-login">
-
       <div id="form-container">
-
         <form id="login-form" method="get" action="homepage.html">
           <legend>Sign up to Pokemon Battle Simulator</legend>
           <div id="username-login">
             <label for="usernameLogin">Enter Username</label>
             <input type="text" name="usernameLogin" id="usernameLogin" />
-            <p class="ErrorMessage" id="usernameLoginError"></p>
           </div>
+          <p class="ErrorMessage" id="usernameLoginError"></p>
           <div id="email-login">
             <label for="emailLogin">Enter Email</label>
             <input
@@ -32,11 +33,12 @@
               id="emailLogin"
               placeholder="test@example.com"
             />
-            <p class="ErrorMessage" id="emailLoginError"></p>
           </div>
+          <p class="ErrorMessage" id="emailLoginError"></p>
           <button type="button" id="SwitchToCreateAccount" class="switchButton">
             <span>Need to Create an Account?</span>
           </button>
+          <input type="reset" value="Reset" class="resetButton" />
           <input type="submit" value="Log-In" />
           <p class="ErrorMessage" id="userDoesNotExist"></p>
         </form>
@@ -46,18 +48,18 @@
           <div id="username-create">
             <label for="username">Enter Username</label>
             <input type="text" name="username" id="username" />
-            <p class="ErrorMessage" id="usernameError"></p>
           </div>
+          <p class="ErrorMessage" id="usernameError"></p>
           <div id="email-create">
             <label for="email">Enter Email</label>
             <input type="email" name="email" id="email" />
-            <p class="ErrorMessage" id="emailError"></p>
           </div>
+          <p class="ErrorMessage" id="emailError"></p>
           <div id="age-create">
             <label for="age">Enter age</label>
             <input type="number" name="age" id="age" />
-            <p class="ErrorMessage" id="ageError"></p>
           </div>
+          <p class="ErrorMessage" id="ageError"></p>
           <div id="region-create">
             <label for="region">Enter region</label>
             <select name="region" id="region">
@@ -67,11 +69,12 @@
               <option>Asia</option>
               <option>Africa</option>
             </select>
-            <p class="ErrorMessage" id="regionError"></p>
           </div>
+          <p class="ErrorMessage" id="regionError"></p>
           <button type="button" id="SwitchToLogIn" class="switchButton">
             <span> Already have an Account? </span>
           </button>
+          <input type="reset" value="Reset" class="resetButton" />
           <input type="submit" value="Create Account" />
           <p class="ErrorMessage" id="userAlreadyExists"></p>
         </form>

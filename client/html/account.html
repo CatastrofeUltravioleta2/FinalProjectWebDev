@@ -3,25 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/client/styles/homepage.css" />
+    <link rel="stylesheet" href="/client/styles/account.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Rubik+Iso&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pacifico&family=Rubik+Iso&family=Tiny5&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/client/styles/headerStyling.css" />
+    <script type="module" src="/client/src/ui/accountUI.js"></script>
+    <script type="module" src="/client/src/domain/accountDomain.js"></script>
     <title>Account</title>
   </head>
   <body>
     <header>
       <a href="homepage.html">
-        <img src="/client/media/pokeball.png" alt="logo" />
+        <figure>
+          <img src="/client/media/pokeball.png" alt="logo" />
+        </figure>
       </a>
-      <h1 id="titleHomepage">Account Details</h1>
+      <h1 id="titleHomepage">Pokemon Battle Simulator</h1>
       <nav>
-        <a href="teambuilder.html">Team Builder</a>
-        <a href="account.html">Account</a>
+        <a href="teambuilder.html">
+          <span>Team Builder</span>
+        </a>
+        <a href="account.html">
+          <span>Account</span>
+        </a>
       </nav>
     </header>
+    <main>
+      <section id="userInfo">
+        <h2>Account Information</h2>
+        <aside id="userInfoDiv">
+          <p><strong>Username:</strong> <span id="infoUsername"></span></p>
+          <p><strong>Email:</strong> <span id="infoEmail"></span></p>
+          <p><strong>Age:</strong> <span id="infoAge"></span></p>
+          <p><strong>Region:</strong> <span id="infoRegion"></span></p>
+        </aside>
+      </section>
+
+      <section id="userMatches">
+        <h2>Match History</h2>
+        <aside id="matchesList"></aside>
+      </section>
+    </main>
   </body>
 </html>

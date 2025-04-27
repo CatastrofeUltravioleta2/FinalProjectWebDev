@@ -9,17 +9,31 @@
       type="module"
       src="/client/src/domain/teamBuilderDomain.js"
     ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pacifico&family=Rubik+Iso&family=Tiny5&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/client/styles/headerStyling.css" />
+    <link rel="stylesheet" href="/client/styles/types.css" />
     <title>Team Builder</title>
   </head>
   <body>
     <header>
       <a href="homepage.html">
-        <img src="/client/media/pokeball.png" alt="logo" />
+        <figure>
+          <img src="/client/media/pokeball.png" alt="logo" />
+        </figure>
       </a>
-      <h1 id="titleHomepage">Team Builder</h1>
+      <h1 id="titleHomepage">Pokemon Battle Simulator</h1>
       <nav>
-        <a href="teambuilder.html">Team Builder</a>
-        <a href="account.html">Account</a>
+        <a href="teambuilder.html">
+          <span>Team Builder</span>
+        </a>
+        <a href="account.html">
+          <span>Account</span>
+        </a>
       </nav>
     </header>
     <main>
@@ -44,51 +58,50 @@
             <label for="pokemonType1Filter">Enter Pokemon Types</label>
             <select name="pokemonType1Filter" id="pokemonType1Filter">
               <option></option>
-              <option>Normal</option>
-              <option>Fire</option>
-              <option>Water</option>
-              <option>Electric</option>
-              <option>Grass</option>
-              <option>Ice</option>
-              <option>Fighting</option>
-              <option>Poison</option>
-              <option>Ground</option>
-              <option>Flying</option>
-              <option>Psychic</option>
-              <option>Bug</option>
-              <option>Rock</option>
-              <option>Ghost</option>
-              <option>Dragon</option>
-              <option>Dark</option>
-              <option>Steel</option>
-              <option>Fairy</option>
+              <option class="normal">Normal</option>
+              <option class="fire">Fire</option>
+              <option class="water">Water</option>
+              <option class="electric">Electric</option>
+              <option class="grass">Grass</option>
+              <option class="ice">Ice</option>
+              <option class="fighting">Fighting</option>
+              <option class="poison">Poison</option>
+              <option class="ground">Ground</option>
+              <option class="flying">Flying</option>
+              <option class="psychic">Psychic</option>
+              <option class="bug">Bug</option>
+              <option class="rock">Rock</option>
+              <option class="ghost">Ghost</option>
+              <option class="dragon">Dragon</option>
+              <option class="dark">Dark</option>
+              <option class="steel">Steel</option>
+              <option class="fairy">Fairy</option>
             </select>
             <select name="pokemonType2Filter" id="pokemonType2Filter">
               <option></option>
-              <option>Normal</option>
-              <option>Fire</option>
-              <option>Water</option>
-              <option>Electric</option>
-              <option>Grass</option>
-              <option>Ice</option>
-              <option>Fighting</option>
-              <option>Poison</option>
-              <option>Ground</option>
-              <option>Flying</option>
-              <option>Psychic</option>
-              <option>Bug</option>
-              <option>Rock</option>
-              <option>Ghost</option>
-              <option>Dragon</option>
-              <option>Dark</option>
-              <option>Steel</option>
-              <option>Fairy</option>
+              <option class="normal">Normal</option>
+              <option class="fire">Fire</option>
+              <option class="water">Water</option>
+              <option class="electric">Electric</option>
+              <option class="grass">Grass</option>
+              <option class="ice">Ice</option>
+              <option class="fighting">Fighting</option>
+              <option class="poison">Poison</option>
+              <option class="ground">Ground</option>
+              <option class="flying">Flying</option>
+              <option class="psychic">Psychic</option>
+              <option class="bug">Bug</option>
+              <option class="rock">Rock</option>
+              <option class="ghost">Ghost</option>
+              <option class="dragon">Dragon</option>
+              <option class="dark">Dark</option>
+              <option class="steel">Steel</option>
+              <option class="fairy">Fairy</option>
             </select>
           </div>
         </div>
 
-        <div id="pokemonCardContainer">
-        </div>
+        <div id="pokemonCardContainer"></div>
       </div>
 
       <div id="teamContainer">

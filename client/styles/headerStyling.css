@@ -1,0 +1,110 @@
+:root{
+    --lightTextColor: rgb(241, 245, 255);
+    --middleRedPokeball: #c92f2f;
+    --ReallyDarkRed: #691a1b;
+    --whitePokeball: #E5F9FF;
+    --darkRedPokeball: #BD005B;  
+    --darkTextColor: #370e0f;   
+}
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  
+    /* background-color: #ec5b5b; */
+
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      ),
+      url("/client/media/pattern3.jpg");
+    
+      background-size:contain;
+      background-position-y: top;
+  
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    width: 100%;
+    padding: 1em;
+    padding-left: 0;
+    padding-right: 0;
+  
+    box-shadow: 0 0.5em 1em;
+  }
+  
+  header a img {
+    width: 10em;
+    transition: 0.5s;
+    margin-left: 1em;
+  }
+  header a img:hover{
+    scale: 1.1;
+    transition: 0.5s;
+  }
+  
+  #titleHomepage {
+    color: var(--lightTextColor);
+    font-family: "Rubik Iso";
+    text-align: center;
+    margin-left: 1em;
+    width: 30%;
+    font-size: 3em;
+  }
+  
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20em;
+  }
+  nav a {
+    background-color: var(--ReallyDarkRed);
+    color: var(--whitePokeball);
+  
+    width: 10em;
+    margin: 0.5em;
+    border-radius: 0.75em;
+  
+    text-decoration: none;
+    cursor: pointer;
+    margin: 1em;
+    /* margin-left: 1em; */
+  
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+  
+    transition: 0.5s;
+  
+    span{
+      text-align: center;
+      display: block;
+      padding: 0.5em;
+      border-radius: 0.5em;
+      transform: translateY(-0.5em);
+      font-size: 1.5em;
+      background-color: var(--middleRedPokeball);
+      font-family: "Jersey 10";
+    }
+  }
+  
+  nav a:active span{
+    transform: translateY(-0.1em);
+  }
+  
+  nav a:hover {
+    width: 15em;
+    transition: 0.5s;
+  }
+  
+  nav a:hover span{
+    background-image: linear-gradient(to bottom right, var(--darkRedPokeball), var(--middleRedPokeball));
+  }

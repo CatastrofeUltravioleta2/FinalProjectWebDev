@@ -1,36 +1,40 @@
+
+:root {
+  
+  --darkRedPokeball: #bd005b;
+  --middleRedPokeball: #c92f2f;
+  --reallyLightRed: #d37979;
+  --ReallyDarkRed: #691a1b;
+  --whitePokeball: #e5f9ff;
+  --highlightPokeball: #fa6c00;
+  --pokemonCardBackground: rgb(233, 247, 240);
+  --pokemonFilterTitle: #421212;
+  --filterBackground: #aee4d1;
+  --inputBackground: #0e7a90;
+  --inputBackgroundFocus: #66d0e2;
+  --pokemonContainerBackground: rgb(252, 244, 234);
+  
+  --backgroundPurple: #221d26;
+  
+  --darkPurple: #31263d;
+  
+  --lightTextColor: #defdd1;
+  --backgroundColor: #ece0e0;
+  --textColor: rgb(48, 29, 34);
+  --mainTextColor: #400b0d;
+
+  --pokemonCardHighlightColor: #def1e4;
+  --editTeamButtonColor: #91EBCC;
+  --editTeamButtonColorHover: #b5ecd9;
+}
+
 body {
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 1em;
-}
-
-header a img {
-  width: 10em;
-}
-
-#titleHomepage {
-  margin-left: 1em;
-  font-size: 1.5em;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-nav a {
-  margin-left: 1em;
-  text-decoration: none;
-  font-size: 1em;
+  background-color: var(--backgroundColor);
 }
 
 main {
@@ -40,15 +44,6 @@ main {
   height: 70vh;
   width: 100%;
 }
-
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 70vh;
-    width: 100%;
-  }
 
 .displayTeamContainer {
   margin-top: 5em;
@@ -63,20 +58,85 @@ form {
 
   .displayTeamMember {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+    background-color: var(--pokemonCardHighlightColor);
     border-style: solid;
     border-radius: 1em;
     width: 90%;
-    height: 7em;
+    height: 8em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    transition: 0.5s;
+    padding: 0.25em;
+
+    font-family: "Jersey 10";
+    
+    img{
+      width: 7em;
+    }
+
+    h2{
+      margin: auto;
+      margin-right: 2em;
+      font-weight: lighter;
+      font-size: 2em;
+    }
+
+    ul{
+      list-style: none;
+      margin: auto;
+    }
+
+    li{
+      border-style: solid;
+      border-radius: 0.5em;
+      margin: 0.5em;
+      padding: 0.25em;
+      text-align: center;
+      font-size: 1.2em;
+      border-color: var(--pokemonFilterTitle);
+      color: var(--lightTextColor);
+    }
+  }
+
+  .displayTeamMember:hover{
+    scale: 1.1;
+    background-color: var(--filterBackground);
+    transition: 0.5s;
   }
 }
 
 .cardsSmallView {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: "Jersey 10";
+
+  img{
+    width: 8em;
+    margin-left: 0;
+  }
+
+  h2{
+    font-size: 2.2em;
+    font-weight: lighter;
+  }
+
+  ul{
+    list-style: none;
+  }
+
+  li{
+    border-style: solid;
+    border-radius: 0.5em;
+    margin: 0.5em;
+    padding: 0.25em;
+    text-align: center;
+    font-size: 1.2em;
+    border-color: var(--pokemonFilterTitle);
+    color: var(--lightTextColor);
+  }
 }
 
 #teamViewButton {
@@ -91,16 +151,178 @@ form {
   align-items: center;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  width: 100%;
+  
+}
+
 .cardExpanded {
-  width: 90%;
-  height: 90%;
+  width: 95%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   border-style: solid;
   border-radius: 1em;
   align-items: center;
+  justify-content: center;
+
+  background-color: var(--pokemonCardBackground);
 }
 
 #next, #back {
     display: none;
+    border-radius: 5em;
+    padding: 1em;
+    margin: 0.5em;
+    background-color: var(--darkRedPokeball);
+    color: var(--lightTextColor);
+    transition: 0.5s;
+}
+
+#next:hover, #back:hover{
+  scale: 1.1;
+  transition: 0.5s;
+  background-color: var(--reallyLightRed);
+  color: var(--mainTextColor);
+}
+
+
+#saveTeam{
+  width: 15%;
+  height: 2em;
+  margin: auto;
+  margin-top: 1em;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-radius: 0.5em;
+  cursor: pointer;
+  font-family: "Jersey 10";
+  font-size: 1.5em;
+  background-color: var(--darkRedPokeball);
+  color: var(--lightTextColor);
+  transition: 0.5s;
+}
+
+#saveTeam:hover{
+  width: 25%;
+  transition: 0.5s;
+  background-color: var(--ReallyDarkRed);
+  border-radius: 0.5em;
+  box-shadow: 0.2em 0.2em 0.2em black;
+}
+
+.editPokemonContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.abilitiesDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  font-family: "Jersey 10";
+
+  label{
+    font-size: 1.25em;
+    text-align: center;
+    color: var(--ReallyDarkRed);
+  }
+
+  select{
+    width: 80%;
+    margin-top: 0.5em;
+    border-style: none;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    text-align: center;
+    background-color: var(--inputBackground);
+    color: var(--lightTextColor);
+    font-family: "Jersey 10";
+    font-size: 1.2em;
+  }
+  
+  select:focus{
+    scale: 1.1;
+    background-color: var(--editTeamButtonColor);
+    color: var(--mainTextColor);
+  }
+}
+
+.movesDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  font-family: "Jersey 10";
+
+  .moveSelectOptions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  label{
+    font-size: 1.25em;
+    text-align: center;
+    color: var(--ReallyDarkRed);
+  }
+
+  select{
+    width: 25%;
+    margin-top: 0.5em;
+    border-style: none;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    text-align: center;
+    background-color: var(--inputBackground);
+    color: var(--lightTextColor);
+    font-family: "Jersey 10";
+    font-size: 1.2em;
+    margin: 0.25em;
+  }
+  
+  select:focus{
+    scale: 1.1;
+    background-color: var(--editTeamButtonColor);
+    color: var(--mainTextColor);
+  }
+}
+
+#teamViewButton{
+  position: absolute;
+  top: 90%;
+  text-align: center;
+  padding: 1em;
+  border-radius: 0.5em;
+  border-style: none;
+  background-color: var(--middleRedPokeball);
+  color: var(--lightTextColor);
+  font-family: "Jersey 10";
+  font-size: 1.1em;
+  width: 10em;
+  transition: 0.5s;
+}
+
+#teamViewButton:hover{
+  width: 15em;
+  background-color: var(--darkRedPokeball);
+  transition: 0.5s;
+}
+
+.errorMessage{
+  text-align: center;
+  position: relative;
+  top: -16%;
 }

@@ -1,38 +1,47 @@
+:root {
+  
+  --darkRedPokeball: #bd005b;
+  --middleRedPokeball: #c92f2f;
+  --ReallyDarkRed: #691a1b;
+  --whitePokeball: #e5f9ff;
+  --highlightPokeball: #fa6c00;
+  --pokemonCardBackground: rgb(233, 247, 240);
+  --pokemonFilterTitle: #421212;
+  --filterBackground: #91EBCC;
+  --inputBackground: #0e7a90;
+  --inputBackgroundFocus: #66d0e2;
+  --pokemonContainerBackground: rgb(252, 244, 234);
+  
+  --backgroundPurple: #221d26;
+  
+  --darkPurple: #31263d;
+  
+  --lightTextColor: #defdd1;
+  --backgroundColor: #ece0e0;
+  --textColor: rgb(48, 29, 34);
+  --mainTextColor: #400b0d;
+
+  --pokemonCardHighlightColor: #d5f0de;
+  --editTeamButtonColor: #91EBCC;
+  --editTeamButtonColorHover: #b5ecd9;
+}
+
 body {
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--backgroundColor);
 }
 
-header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 1em;
+#connectionResponse{
+  margin: auto;
+  font-family: "Rubik Iso";
+  margin: auto;
+  margin-top: 5em;
+  font-size: 2em;
 }
-
-header a img {
-  width: 10em;
-}
-
-#titleHomepage {
-  margin-left: 1em;
-  font-size: 1.5em;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-nav a {
-  margin-left: 1em;
-  text-decoration: none;
-  font-size: 1em;
-}
-
 /* Battle Styling */
 #BattleScreen {
   display: none;
@@ -47,7 +56,7 @@ nav a {
   border-style: solid;
   border-top-right-radius: 1em;
   border-top-left-radius: 1em;
-  height: 80%;
+  height: 70%;
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -86,7 +95,7 @@ nav a {
 }
 
 .PokemonData {
-  background-color: azure;
+  background-color: white;
   border-radius: 1em;
   padding: 0.5em;
   padding-bottom: 1.5em;
@@ -94,12 +103,10 @@ nav a {
 }
 
 #oponentHealthBar {
-  width: 40%;
   background-color: green;
 }
 
 #userHealthBar {
-  width: 40%;
   background-color: green;
 }
 
@@ -119,7 +126,7 @@ nav a {
   display: flex;
   align-items: center;
   width: 90%;
-  height: 15%;
+  height: 22%;
   border-style: solid;
   background-color: rgb(223, 226, 165);
 }
@@ -153,9 +160,6 @@ nav a {
   width: 25%;
   padding: 0;
 
-  button {
-    margin: 1em;
-  }
 }
 
 .shrinkedDialog {
@@ -176,11 +180,28 @@ nav a {
   background-color: white;
   border-radius: 1em;
   z-index: 2;
+
+  ul{
+    list-style: none;
+    margin-left: 0;
+  }
+
+  li{
+    border-style: solid;
+    border-radius: 0.5em;
+    margin: 0.5em;
+    margin-left: 0;
+    padding: 0.25em;
+    text-align: center;
+    font-size: 1.2em;
+    border-color: var(--pokemonFilterTitle);
+    color: var(--lightTextColor);
+  }
 }
 
 #switchPokemonDiv {
   display: none;
-  border-style: solid;
+
   border-radius: 1em;
   flex-direction: row;
   flex-wrap: wrap;
@@ -194,7 +215,6 @@ nav a {
 
 #selectMoveDiv {
   display: none;
-  border-style: solid;
   border-radius: 1em;
   flex-direction: row;
   flex-wrap: wrap;
@@ -285,6 +305,18 @@ nav a {
 
   #goBackButton{
     display: none;
+    border-radius: 3em;
+    width: 3em;
+    height: 3em;
+    background-color: var(--editTeamButtonColor);
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+  }
+  #goBackButton:hover{
+    scale: 1.2;
+    transition: 0.5s;
+    background-color: var(--inputBackgroundFocus);
   }
 
 
@@ -293,8 +325,6 @@ nav a {
     display: none;
     flex-wrap: wrap;
     justify-content: center;
-    border-style: solid;
-    border-radius: 1em;
     align-items: center;
     margin: 0.5em;
     height: fit-content;
@@ -305,7 +335,7 @@ nav a {
   .MoveCard {
     display: flex;
     flex-direction: column;
-    width: 15em; /* fixed width for uniform layout */
+    width: 14em;
     margin: 0.5em;
     padding: 0.5em;
     border-radius: 0.5em;
@@ -349,4 +379,30 @@ nav a {
   #gameOver{
     display: none;
     margin: auto;
+  }
+
+  #fightButton{
+    font-family: "Jersey 10";
+    background-color: var(--editTeamButtonColor);
+    font-size: 1.5em;
+    margin: 0.25em;
+    width: 4em;
+    border-radius: 0.25em;
+    transition: 0.5s;
+  }
+
+  #switchButton{
+    font-family: "Jersey 10";
+    background-color: var(--editTeamButtonColor);
+    font-size: 1.5em;
+    width: 4em;
+    margin: 0.25em;
+    border-radius: 0.25em;
+    transition: 0.5s;
+  }
+
+  #fightButton:hover, #switchButton:hover{
+    width: 5em;
+    background-color: var(--inputBackgroundFocus);
+    transition: 0.5s;
   }

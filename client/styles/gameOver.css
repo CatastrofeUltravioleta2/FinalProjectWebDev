@@ -1,0 +1,46 @@
+:root {
+  
+  --darkRedPokeball: #bd005b;
+  --middleRedPokeball: #c92f2f;
+  --ReallyDarkRed: #691a1b;
+  --whitePokeball: #e5f9ff;
+  --highlightPokeball: #fa6c00;
+  --pokemonCardBackground: rgb(233, 247, 240);
+  --pokemonFilterTitle: #421212;
+  --filterBackground: #91EBCC;
+  --inputBackground: #0e7a90;
+  --inputBackgroundFocus: #66d0e2;
+  --pokemonContainerBackground: rgb(252, 244, 234);
+  
+  --backgroundPurple: #221d26;
+  
+  --darkPurple: #31263d;
+  
+  --lightTextColor: #defdd1;
+  --backgroundColor: #ece0e0;
+  --textColor: rgb(48, 29, 34);
+  --mainTextColor: #400b0d;
+
+  --pokemonCardHighlightColor: #d5f0de;
+  --editTeamButtonColor: #91EBCC;
+  --editTeamButtonColorHover: #b5ecd9;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--backgroundColor);
+}
+
+#winnerTitle {
+  margin-top: 2.5em;
+  font-family: "Jersey 10";
+  letter-spacing: 0.1em;
+  font-size: 5em;
+  color: var(--mainTextColor);
+  
+}

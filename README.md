@@ -32,24 +32,19 @@
 4. ## April 12 (60%)
     - [x] User can load battles into memory and watch battle history and battle logs.
     - [x] User can enter a lobby and wait for other players.. 
-    - [ ] Finalize CSS details.
+    - [x] Finalize CSS details.
 5. ## April 16 (75%)
     - [x] User's pokemon can use abilities in combat and create buffs and debuffs.
     - [x] User can see pokemon information in battle.
 6. ## April 19 (90%)
-    - [ ] User can see page on mobile device.
-    - [ ] Polish UI details. 
-    - [ ] Host page on GitHub.
+    - [x] Polish UI details. 
 
 ## Hard Things
-For the Hard Things section I plan on doing many things that will go over 25 points so my backup plan If I cannot complete all of them is to focus on C# api and storing information and hosting the page.
+For the Hard Things section I plan on doing many things that will go over 25 points so my backup plan If I cannot complete all of them is to focus on C# api and storing information.
 
 - Back-end API (15)
-- Host Back end API on cloud server (10)
-- Host site on Github pages (5)
-- Uploading, storing and using files in api (15)
 - Work with audio / video (8)
-- Mobile responsive css (8)
-- Use css styling framwork (5)
+- Interactions with websockets (15)
+- File System (3)
 
-- ### Expected Total: 66
+- ### Expected Total: 41

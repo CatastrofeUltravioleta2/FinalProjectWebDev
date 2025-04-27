@@ -82,7 +82,7 @@ async Task HandleWebSocket(WebSocket webSocket)
 
     }
 
-    while (!receiveResult.CloseStatus.HasValue)
+    while (true)
     {
         if (currentGameId != default)
         {
@@ -98,10 +98,18 @@ async Task HandleWebSocket(WebSocket webSocket)
             var receiveResultPlayer1 = connections[currentGame.Player1.Info].ReceiveAsync(new ArraySegment<byte>(buffer1), CancellationToken.None);
             var receiveResultPlayer2 = connections[currentGame.Player2.Info].ReceiveAsync(new ArraySegment<byte>(buffer2), CancellationToken.None);
 
-            if(receiveResultPlayer1.Result.MessageType == WebSocketMessageType.Close || receiveResultPlayer2.Result.MessageType == WebSocketMessageType.Close)
-                return;
-
             await Task.WhenAll(receiveResultPlayer1, receiveResultPlayer2);
+
+            if (receiveResultPlayer1.Result.MessageType == WebSocketMessageType.Close || receiveResultPlayer2.Result.MessageType == WebSocketMessageType.Close)
+            {
+                System.Console.WriteLine($" {currentUser.userData} connection closed");
+                connections.Remove(currentGame.Player1.Info);
+                connections.Remove(currentGame.Player2.Info);
+                Players.Remove(currentGame.Player1.Info);
+                Players.Remove(currentGame.Player2.Info);
+                return;
+            }
+
 
             System.Console.WriteLine($" {currentUser.userData} received message");
             System.Console.WriteLine($" {currentUser.userData} received message");
@@ -127,36 +135,19 @@ async Task HandleWebSocket(WebSocket webSocket)
             if (player1Lost || player2Lost)
             {
                 var winner = player1Lost ? currentGame.Player2.Info : currentGame.Player1.Info;
-                string gameOverMessage = $"{{\"type\": \"gameOver\", \"winner\": {winner}}}";
+                string gameOverMessage = $"{{\"type\": \"gameOver\", \"winner\": \"{winner}\"}}";
+                System.Console.WriteLine(gameOverMessage);
 
                 await SendMessage(connections[currentGame.Player1.Info], gameOverMessage);
                 await SendMessage(connections[currentGame.Player2.Info], gameOverMessage);
-                System.Console.WriteLine( $"message sent game over", winner);
+                System.Console.WriteLine($"message sent game over", winner);
 
                 SaveMatch(currentGame, winner);
 
-                if(connections.TryGetValue(currentGame.Player1.Info, out var socket1) && socket1.State == WebSocketState.Open)
-                {
-                    try{
-                        await socket1.CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
-                    }
-                    catch
-                    {
-                        System.Console.WriteLine($" {currentUser.userData} connection closed with error");
-                    }
-                }
+                var closeResult1 = connections[currentGame.Player1.Info].CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+                var closeResult2 = connections[currentGame.Player2.Info].CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
+                await Task.WhenAll(closeResult1, closeResult2);
 
-                if(connections.TryGetValue(currentGame.Player2.Info, out var socket2) && socket2.State == WebSocketState.Open)
-                {
-                    try{
-                        await socket2.CloseAsync(WebSocketCloseStatus.NormalClosure, "Game Over", CancellationToken.None);
-                    }
-                    catch
-                    {
-                        System.Console.WriteLine($" {currentUser.userData} connection closed with error");
-                    }
-                }
-                
                 System.Console.WriteLine($" {currentUser.userData} closing");
 
                 connections.Remove(currentGame.Player1.Info);
@@ -166,7 +157,6 @@ async Task HandleWebSocket(WebSocket webSocket)
 
                 return;
             }
-
         }
         else
         {
@@ -224,7 +214,13 @@ string matchesFile = "matchesInfo.json";
 
 List<userAccount> users = new();
 List<pokemonTeam> allTeams = new();
+List<Match> allMatches = new List<Match>();
 
+if (File.Exists(matchesFile))
+{
+    var json = File.ReadAllText(matchesFile);
+    allMatches.AddRange(JsonSerializer.Deserialize<List<Match>>(json));
+}
 if (File.Exists(userInfoFile))
 {
     var json = File.ReadAllText(userInfoFile);
@@ -263,6 +259,7 @@ app.MapPost("/Teams", (pokemonTeam team) =>
     File.WriteAllText(teamsFile, json);
 });
 
+app.MapGet("/Matches/{user}", (string user) => allMatches.Where(m => m.player1.Info == user || m.player2.Info == user).ToList());
 
 app.Run();
 

@@ -111,6 +111,7 @@ const UpdateUI = () => {
   oponentTeam.Pokemons[oponentCurrentIndex].Types.forEach((type) => {
     const typeLI = document.createElement("li");
     typeLI.textContent = type;
+    typeLI.classList.add(type)
     oponentTypes.appendChild(typeLI);
   });
 
@@ -131,6 +132,7 @@ const UpdateUI = () => {
   userTeam.Pokemons[userCurrentIndex].Types.forEach((type) => {
     const typeLI = document.createElement("li");
     typeLI.textContent = type;
+    typeLI.classList.add(type)
     userTypes.appendChild(typeLI);
   });
 
@@ -275,7 +277,7 @@ const renderMoveCard = (move) => {
   const card = document.createElement("div");
   card.classList.add("MoveCard");
 
-  if ((move.PP == 0)) {
+  if (move.PP == 0) {
     card.classList.add("outOfPP");
   }
 
@@ -321,29 +323,15 @@ const renderMoveCard = (move) => {
 };
 
 const handleGameOver = (data) => {
-  console.log("aaaaaaaaaaaaaaaaa")
-  const header = document.getElementById("header");
-  const gameOverDiv = document.getElementById("gameOver");
-  const gameScreen = document.getElementById("BattleScreen");
-
-  gameOverDiv.replaceChildren();
-
-  header.style.display = "flex";
-  gameOverDiv.style.display = "flex";
-  gameScreen.style.display = "none";
-
-  const gameOver = document.createElement("h1");
-  gameOver.textContent = `Game Over!`;
-  gameOverDiv.appendChild(gameOver);
-
-  const winnerTitle = document.createElement("h2");
-  winnerTitle.textContent = `Winner: ${data.winner}`;
-  gameOverDiv.appendChild(winnerTitle);
+  window.location.replace(`gameOver.html?${data.winner}`);
 };
+
+if (sessionStorage.getItem("username") == null) {
+  window.location.replace("login.html");
+}
 
 await getTeamFromQueryString();
 await populatePokemonForBattle();
-
 initializeWebSocket();
 
 const currentSocket = getWebSocket();
@@ -353,9 +341,10 @@ currentSocket.addEventListener("message", async (event) => {
   console.log("Received message:", data);
 
   if (data.type == "gameOver") {
+    currentSocket.close();
     handleGameOver(data);
+  } else {
+    setupJoinGame(data);
+    await setTeams(data, UpdateUI);
   }
-
-  setupJoinGame(data);
-  await setTeams(data, UpdateUI);
 });

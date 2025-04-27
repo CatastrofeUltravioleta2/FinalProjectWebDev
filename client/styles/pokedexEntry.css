@@ -1,119 +1,151 @@
+:root {
+  --darkRedPokeball: #bd005b;
+  --middleRedPokeball: #c92f2f;
+  --ReallyDarkRed: #691a1b;
+  --whitePokeball: #e5f9ff;
+  --highlightPokeball: #fa6c00;
+  --pokemonCardBackground: rgb(233, 247, 240);
+  --pokemonFilterTitle: #421212;
+  --abDivColor: #cff4e6;
+  --moveDivColor: #cfedf4;
+  --abilityName: #074e5d;
+  --inputBackgroundFocus: #66d0e2;
+  --pokemonContainerBackground: rgb(252, 244, 234);
+
+  --backgroundPurple: #221d26;
+
+  --darkPurple: #31263d;
+
+  --lightTextColor: #defdd1;
+  --backgroundColor: #ece0e0;
+  --pokemonInfoBackground: #f7cccc;
+  --textColor: rgb(48, 29, 34);
+  --mainTextColor: #400b0d;
+
+  --pokemonCardHighlightColor: #d5f0de;
+  --editTeamButtonColor: #91ebcc;
+  --editTeamButtonColorHover: #b5ecd9;
+}
+
 body {
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--backgroundColor);
 }
 
-header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 1em;
-}
-
-header a img {
-  width: 10em;
-}
-
-#titleHomepage {
-  margin-left: 1em;
-  font-size: 1.5em;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-nav a {
-  margin-left: 1em;
-  text-decoration: none;
-}
-
-
-
-
-/* Container styling for the entire Pokémon info section */
 #PokemonInfo {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    font-family: Arial, sans-serif;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: auto;
+  margin-top: 3em;
+  margin-bottom: 1em;
+  padding: 2em;
+  border-radius: 1em;
+  box-shadow: 0 1em 1em rgba(0, 0, 0, 0.2);
+  background-color: var(--pokemonInfoBackground);
+}
+
+#mainHeaderInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 0.2em solid var(--mainTextColor);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+#imageAndName {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 12em;
+    margin-right: 3em;
   }
-  
-  /* Header area that contains image, name, and stats */
-  #mainHeaderInfo {
+
+  h2 {
+    font-family: "Jersey 10";
+    font-size: 2.5em;
+    font-weight: lighter;
+    letter-spacing: 0.1em;
+    color: var(--mainTextColor);
+  }
+
+  #nameAndType {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+    justify-content: center;
+
+    .type {
+      margin: 0;
+      margin-bottom: 0.5em;
+      width: 5em;
+      text-align: center;
+      font-size: 1.25em;
+      border-radius: 0.2em;
+      padding: 0.2em;
+    }
   }
-  
-  /* Styling for the image and name container */
-  #imageAndName {
-    display: flex;
-    align-items: center;
-  }
-  
-  #imageAndName img {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-  }
-  
-  #imageAndName h2 {
-    margin: 5px 0;
-  }
-  
-  /* Styling for the type labels */
-  #imageAndName .type {
-    font-size: 0.9em;
-    background: #e0e0e0;
-    padding: 4px 8px;
-    border-radius: 5px;
-    margin-right: 5px;
-    display: inline-block;
-  }
-  
-  /* Stats list styling */
-  #stats {
-    list-style: none;
-    padding: 0;
+}
+
+#stats {
+  list-style: none;
+  margin-right: 2em;
+  text-align: left;
+}
+
+#stats li {
+  font-family: "Jersey 10";
+  font-size: 1.25em;
+  font-weight: lighter;
+}
+
+#OtherInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* Abilities and Moves sections styling */
+#Abilities,
+#Moves {
+  flex: 1;
+  list-style: none;
+}
+
+.abDiv {
+  background-color: var(--abDivColor);
+  border-radius: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  width: 100%;
+  padding-top: 0.5em;
+
+  .abName {
+    font-family: "Rubik Iso";
+    color: var(--abilityName);
     margin: 0;
-    text-align: right;
   }
-  
-  #stats li {
-    margin: 5px 0;
-    font-weight: bold;
+
+  .abEffect {
+    text-align: center;
+    font-family: "Jersey 10";
+    font-size: 1.25em;
+    margin-top: 0.5em;
   }
-  
-  /* Container for other Pokémon info (Abilities and Moves) */
-  #OtherInfo {
-    display: flex;
-    gap: 20px;
-  }
-  
-  /* Abilities and Moves sections styling */
-  #Abilities,
-  #Moves {
-    flex: 1;
-  }
-  
-  /* Styling for individual ability and move cards */
-  .ability,
-  .move {
-    background: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
+}
+
+.move{
+  background-color: var(--moveDivColor);
+  border-radius: 0.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1em;
+  font-family: "Jersey 10";
+  font-size: 1.75em;
+  padding: 0.2em;
+}

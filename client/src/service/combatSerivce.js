@@ -3,7 +3,7 @@ var socket = undefined;
 // var handleMessageFunctions = [];
 const SetupConnection = () => {
   socket = new WebSocket("ws://localhost:5176/battle");
-  console.log(socket)
+  console.log(socket);
 
   const user = sessionStorage.getItem("username");
   const email = sessionStorage.getItem("email");
@@ -49,14 +49,17 @@ export const SendAction = (actionType, data) => {
   const action = {
     actionType: actionType,
     index: data,
-  }
+  };
 
   console.log(socket);
-  console.log(JSON.stringify(action))
+  console.log(JSON.stringify(action));
 
   socket.send(JSON.stringify(action));
-}
+};
 
-// export const addMessageHandler = (func) => {
-//   handleMessageFunctions.push(func);
-// };
+export const getMatchInfo = async (userData) => {
+  const response = await fetch(`http://localhost:5176/Matches/${userData}`, {
+    method: "GET",
+  });
+  return await response.json();
+} 

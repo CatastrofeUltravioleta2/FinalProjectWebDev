@@ -1,36 +1,39 @@
+:root {
+  
+  --darkRedPokeball: #bd005b;
+  --middleRedPokeball: #c92f2f;
+  --ReallyDarkRed: #691a1b;
+  --whitePokeball: #e5f9ff;
+  --highlightPokeball: #fa6c00;
+  
+  
+  --backgroundPurple: #221d26;
+  
+  --darkPurple: #31263d;
+  
+  --lightTextColor: #defdd1;
+  --backgroundColor: #ece0e0;
+  --textColor: rgb(48, 29, 34);
+  --mainTextColor: #400b0d;
+  --pokemonCardHighlightColor: #d5f0de;
+  --editTeamButtonColor: #91EBCC;
+  --editTeamButtonColorHover: #b5ecd9;
+  --joinGameBorderColor: #163b21;
+  --joinButtonColor: #f18181;
+  --joinButtonLigthter: rgb(212, 150, 150);
+  --blackTransparent:  rgba(0, 0, 0, 0.464);
+  --switchButtonColor: rgb(241, 226, 226);
+  --switchButtonColorHover: rgb(239, 144, 144);
+}
+
 body {
+  background-color: var(--backgroundColor);
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 1em;
-}
-
-header a img {
-  width: 10em;
-}
-
-#titleHomepage {
-  margin-left: 1em;
-  font-size: 1.5em;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-nav a {
-  margin-left: 1em;
-  text-decoration: none;
-  font-size: 1em;
+  font-family: "Jersey 10";
 }
 
 main {
@@ -38,24 +41,143 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-style: solid;
   margin: 1em;
   width: 90%;
-  border-radius: 1em;
   padding: 1em;
 }
 
-img {
-  width: 40em;
-  height: auto;
-  margin-top: 1em;
+#mainSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p{
+    font-size: 2.25em;
+    letter-spacing: 0.1em;
+    word-spacing: 0.25em;
+    text-align: center;
+    width: 85%;
+    color: var(--textColor);
+  }
+}
+
+#carousel{
+  position: relative;
+  width: 100%;
+  max-width: 50em;
+  margin: 2em auto;
+  overflow: hidden;
+  border-radius: 1em;
+
+  button{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    font-size: 2em;
+    z-index: 2;
+    height: 100%;
+    background-color: var(--blackTransparent);
+    color: var(--switchButtonColor);
+    transition: 0.5s;
+  }
+
+  button:hover{
+    width: 1.5em;
+    color: var(--switchButtonColorHover);
+    transition: 0.5s;
+  }
+
+  #carouselButtonPrev{
+    left: 0em;
+  }
+
+  #carouselButtonNext{
+    right: 0em;
+  }
+}
+
+#carouselMainImages {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  transition: 0.5s;
+}
+
+.carouselImage {
+  flex: 0 0 100%;
+  user-select: none;
+
+  img{
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    
+  }
+}
+
+.userTeams{
+  font-size: 4em;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-family: "Pacifico";
+  color: var(--mainTextColor);
+}
+
+.joinGameButton{
+  width: 30%;
+  text-align: center;
+  margin: auto;
+  border-radius: 0.5em;
+  height: 2em;
+  font-size: 2em;
+  border-style: solid;
+  border-width: 0.2em;;
+
+  background-color: var(--backgroundColor);
+  border-color: var(--joinGameBorderColor);
+  font-family: "Jersey 10";
+  transition: 0.25s;
+}
+
+.joinGameButton:hover{
+  width: 40%;
+  background-color: var(--joinGameBorderColor);
+  color: var(--lightTextColor);
+  border-style: none;
+  transition: 0.25s;
+  box-shadow: 0.25em 0.25em 0.5em var(--darkPurple);
+
 }
 
 #SavedTeams {
   display: flex;
   flex-direction: column;
   margin: 2em auto;
+  margin-top: 0;
   padding: 1em;
+}
+
+.editButton{
+  margin: 1em;
+  margin-left: 0;
+  border-radius: 0.5em;
+  padding: 0.25em;
+  font-size: 1.5em;
+  background-color: var(--editTeamButtonColor);
+  font-family: "Jersey 10";
+  transition: 0.5s;
+  width: 4em;
+}
+
+.editButton:hover{
+  width: 5em;
+  border-radius: 1em;
+  transition: 0.5s;
+  background-color: var(--editTeamButtonColorHover);
 }
 
 .teamContainer {
@@ -65,15 +187,20 @@ img {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border-style: solid;
+  justify-content: center;
+  text-align: center;
   border-radius: 1em;
   padding: 1em;
   margin-bottom: 2em;
 }
 
 .teamContainer h2 {
-  text-align: center;
+  text-align: left;
   margin-bottom: 1em;
+  font-size: 2em;
+  margin-bottom: 0;
+  font-family: "Rubik Iso";
+  border-bottom: solid 0.1em;
 }
 
 .pokemonCard {
@@ -84,7 +211,10 @@ img {
   border-radius: 1em;
   margin: 0.5em;
   padding: 0.5em;
+  padding-top: 0;
   text-align: center;
+
+  background-color: var(--pokemonCardHighlightColor);
 
   img {
     margin: auto;
@@ -92,7 +222,7 @@ img {
   }
 
   h3 {
-    font-size: 1.1em;
+    font-size: 1.5em;
     margin: 0.5em;
   }
 }
@@ -105,14 +235,19 @@ img {
 
 .pokemonCard ul li {
   display: inline-block;
+  text-align: center;
   margin: 0 0.2em;
   padding: 0.2em 0.4em;
-  background-color: #eee;
   border-radius: 4px;
   font-size: 0.9em;
+  font-size: 1.1em;
+  font-weight: bold;
+  letter-spacing: 0.1em;
 }
 
 .pokemonCard p {
   margin: 0.5em 0;
-  font-size: 0.9em;
+  font-size: 1em;
+  color: var(--textColor);
 }
+

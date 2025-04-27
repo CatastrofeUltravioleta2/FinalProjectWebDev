@@ -245,6 +245,24 @@ const AddValidationToCreateAccount = () => {
   });
 };
 
+const AddResetBehavior = () => {
+
+  document.querySelectorAll(".resetButton").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const form = e.target.form;
+
+      form.querySelectorAll("input, select").forEach((field) => {
+        if (field.type != "submit" && field.type != "reset") field.value = "";
+      });
+      form.querySelectorAll(".ErrorMessage").forEach((err) => {
+        err.style.display = "none";
+        err.textContent = "";
+      });
+    });
+  });
+};
+
 AddValidationToLogIn();
+AddResetBehavior();
 AddValidationToCreateAccount();
 SwitchCreateAccountOrLogIn();

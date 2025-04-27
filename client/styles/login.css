@@ -8,6 +8,7 @@
   --darkTextColor: #171131;
   --inputBackground: rgb(239, 224, 246);
   --inputBackgroundHover: rgb(235, 196, 255);
+  --redError: #de1047;
 }
 
 body {
@@ -23,7 +24,7 @@ body {
   position: relative;
   margin: auto;
   width: 50em;
-  height: 85vh;
+  height: 95vh;
   background: var(--margin-background);
   overflow: hidden;
   border-radius: 1em;
@@ -85,7 +86,7 @@ form {
 
   legend {
     text-align: center;
-    font-size: 2em;
+    font-size: 1.75em;
     font-weight: bold;
     font-family: "Rubik Iso";
     color: var(--darkTextColor);
@@ -93,6 +94,7 @@ form {
 
   label {
     font-family: "Jersey 10";
+    text-align: center;
     font-size: 1.2em;
     color: var(--darkTextColor);
     width: 20%;
@@ -110,6 +112,19 @@ form {
     font-size: 1.25em;
     font-family: "Jersey 10";
     background-color: var(--softTextColor);
+    transition: 0.5s;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+   select:focus {
+    background-color: var(--margin-background);
+    color: var(--darkTextColor);
+    box-shadow: 0.25em 0.25em 0.3em;
+    scale: 1.05;
+    border-radius: 1em;
+    transition: 0.5s;
   }
 }
 
@@ -124,9 +139,11 @@ form {
 .ErrorMessage {
   display: none;
   text-align: center;
+  font-size: 1em;
   margin: 0;
-  margin-top: 0.5em;
-  color: red;
+  margin-bottom: 0;
+  color: var(--redError);
+  font-weight: bold;
 }
 
 .switchButton {
@@ -157,7 +174,7 @@ input[type="submit"] {
   text-align: center;
   font-family: "Tiny5";
   width: 50%;
-  margin-top: 2em;
+  margin-top: 1em;
   height: 2em;
   border-radius: 0.5em;
   font-size: 1.3em;
@@ -172,6 +189,30 @@ input[type="submit"] {
 input[type="submit"]:hover {
   scale: 1.2;
   width: 80%;
+  background-color: var(--softTextColor);
+  color: var(--purpleDarker);
+  box-shadow: 0.2em 0.2em 0.1em;
+  transition: 0.5s;
+}
+
+.resetButton{
+  text-align: center;
+  font-family: "Tiny5";
+  width: 30%;
+  height: 2em;
+  border-radius: 0.5em;
+  font-size: 1.3em;
+  border: none;
+  background-color: var(--purpleDarker);
+  color: var(--softTextColor);
+  font-weight: bold;
+  box-shadow: 0.2em 0.2em 0.1em;
+  transition: 0.5s;
+}
+
+.resetButton:hover{
+  scale: 1.2;
+  width: 30%;
   background-color: var(--softTextColor);
   color: var(--purpleDarker);
   box-shadow: 0.2em 0.2em 0.1em;

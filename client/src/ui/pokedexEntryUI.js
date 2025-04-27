@@ -32,6 +32,7 @@ const renderPokemonInfo = async (pokemonData) => {
   imageAndName.appendChild(image);
 
   const nameAndType = document.createElement("div");
+  nameAndType.id = "nameAndType"
   imageAndName.appendChild(nameAndType);
 
   const name = document.createElement("h2");
@@ -41,6 +42,7 @@ const renderPokemonInfo = async (pokemonData) => {
   pokemonData.types.forEach((t) => {
     const type = document.createElement("h2");
     type.classList.add("type");
+    type.classList.add(t.type.name)
     type.textContent = t.type.name;
     nameAndType.appendChild(type);
   });
@@ -76,10 +78,20 @@ const renderPokemonInfo = async (pokemonData) => {
 
   var allAbilities = getAllAbilities();
   allAbilities.forEach((a) => {
-    const li = document.createElement("li");
-    li.classList.add("ability");
+    const ability = document.createElement("li");
+    ability.classList.add("abDiv")
+
+    const li = document.createElement("h3");
+    li.classList.add("abName");
     li.textContent = a.name;
-    abilitiesUl.appendChild(li);
+    ability.appendChild(li)
+
+    const abEffect = document.createElement("p");
+    abEffect.classList.add("abEffect");
+    abEffect.textContent = a.effect;
+    ability.appendChild(abEffect)
+
+    abilitiesUl.appendChild(ability);
   });
 
   //display moves

@@ -1,39 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/client/styles/teamEdit.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/client/styles/teamEdit.css" />
     <script type="module" src="/client/src/ui/teamEditUI.js"></script>
     <script type="module" src="/client/src/domain/teamEditDomain.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pacifico&family=Rubik+Iso&family=Tiny5&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/client/styles/types.css" />
+    <link rel="stylesheet" href="/client/styles/headerStyling.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
       <a href="homepage.html">
-        <img src="/client/media/pokeball.png" alt="logo" />
+        <figure>
+          <img src="/client/media/pokeball.png" alt="logo" />
+        </figure>
       </a>
-      <h1 id="titleHomepage">Team Editor</h1>
+      <h1 id="titleHomepage">Pokemon Battle Simulator</h1>
       <nav>
-        <a href="teambuilder.html">Team Builder</a>
-        <a href="account.html">Account</a>
+        <a href="teambuilder.html">
+          <span>Team Builder</span>
+        </a>
+        <a href="account.html">
+          <span>Account</span>
+        </a>
       </nav>
     </header>
     <main>
-        <button id="teamViewButton">go back to Team view</button>
-        <button id="back"> ◀ </button>
-        <form id="teamForm">
-            <section id="displayTeamContainer" class="displayTeamContainer">
-                <div class="displayTeamMember" id="0"></div>
-                <div class="displayTeamMember" id="1"></div>
-                <div class="displayTeamMember" id="2"></div>
-                <div class="displayTeamMember" id="3"></div>
-                <div class="displayTeamMember" id="4"></div>
-                <div class="displayTeamMember" id="5"></div>
-            </section>
-            <input type="submit" id="saveTeam" value="Save Team">
-        </form>
-        <button id="next"> ▶ </button>
+      <button id="teamViewButton">go back to Team view</button>
+      <button id="back">◀</button>
+      <form id="teamForm">
+        <section id="displayTeamContainer" class="displayTeamContainer">
+          <div class="displayTeamMember" id="0"></div>
+          <div class="displayTeamMember" id="1"></div>
+          <div class="displayTeamMember" id="2"></div>
+          <div class="displayTeamMember" id="3"></div>
+          <div class="displayTeamMember" id="4"></div>
+          <div class="displayTeamMember" id="5"></div>
+        </section>
+        <input type="submit" id="saveTeam" value="Save Team" />
+      </form>
+      <button id="next">▶</button>
     </main>
-</body>
+  </body>
 </html>

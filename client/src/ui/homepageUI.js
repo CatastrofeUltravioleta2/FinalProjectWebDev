@@ -19,12 +19,14 @@ const displaySavedTeams = async () => {
   }
 
   const savedTeamsTitle = document.createElement("h1");
+  savedTeamsTitle.classList.add("userTeams");
   savedTeamsTitle.textContent = `${sessionStorage.getItem("username")} Teams`;
   savedTeamsDiv.appendChild(savedTeamsTitle);
 
   teams.forEach((team, teamIndex) => {
     const JoinGameButton = document.createElement("button");
     JoinGameButton.textContent = "Join a Game";
+    JoinGameButton.classList.add("joinGameButton")
     savedTeamsDiv.appendChild(JoinGameButton);
 
     JoinGameButton.addEventListener("click", (e) => {
@@ -40,6 +42,7 @@ const displaySavedTeams = async () => {
 
     const editButton = document.createElement("button");
     editButton.textContent = "Edit team";
+    editButton.classList.add("editButton")
     teamContainer.appendChild(editButton);
     editButton.addEventListener("click", (e) => {
       var ids = "";
@@ -72,6 +75,7 @@ const displaySavedTeams = async () => {
       pokemonData.types.forEach((t) => {
         const li = document.createElement("li");
         li.textContent = t.type.name;
+        li.classList.add(t.type.name);
         typesList.appendChild(li);
       });
       pokemonCard.appendChild(typesList);
@@ -91,10 +95,32 @@ const displaySavedTeams = async () => {
   });
 };
 
+const setupCarousel = () => {
+  console.log("dqweqwe")
+  const mainImages = document.getElementById("carouselMainImages");
+  const imageDivs = Array.from(mainImages.children);
+  const previousButton = document.getElementById("carouselButtonPrev");
+  const nextButton = document.getElementById("carouselButtonNext");
+  var currentImage = 0;
+
+  previousButton.addEventListener("click", e => {
+    const index = (currentImage - 1 + imageDivs.length) % imageDivs.length;
+    mainImages.style.transform = `translateX(-${index*100}%)`;
+    currentImage = index;
+  })
+
+  nextButton.addEventListener("click", e => {
+    const index = (currentImage + 1 + imageDivs.length) % imageDivs.length;
+    mainImages.style.transform = `translateX(-${index*100}%)`;
+    currentImage = index;
+  })
+}
+
 if (sessionStorage.getItem("username") == null) {
   window.location.replace("login.html");
 }
 await displaySavedTeams();
+setupCarousel();
 
 const user = sessionStorage.getItem("username");
 const email = sessionStorage.getItem("email");

@@ -4,11 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/client/styles/homepage.css" />
+    <link rel="stylesheet" href="/client/styles/headerStyling.css">
     <script type="module" src="/client/src/ui/homepageUI.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/client/styles/types.css">
     <link
-      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Rubik+Iso&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pacifico&family=Rubik+Iso&family=Tiny5&display=swap"
       rel="stylesheet"
     />
     <title>Homepage</title>
@@ -16,23 +18,50 @@
   <body>
     <header>
       <a href="homepage.html">
-        <img src="/client/media/pokeball.png" alt="logo" />
+        <figure>
+          <img src="/client/media/pokeball.png" alt="logo" />
+        </figure>
       </a>
       <h1 id="titleHomepage">Pokemon Battle Simulator</h1>
       <nav>
-        <a href="teambuilder.html">Team Builder</a>
-        <a href="account.html">Account</a>
+        <a href="teambuilder.html">
+          <span>Team Builder</span>
+        </a>
+        <a href="account.html">
+          <span>Account</span>
+        </a>
       </nav>
     </header>
     <main>
-      <div>
+      <div id="mainSection">
         <p>
           Welcome to Pokemon Battle Simulator, an Interactive page where you can
           create and customize your team and engage in the classic strategy
-          turn-based battles of pokemon with your friends (Change later)
+          turn-based battles of pokemon with your friends
         </p>
-        <img src="/client/media/homepage.jpg" alt="homepage image" />
+        <section id="carousel">
+          <div id="carouselMainImages">
+            <div class="carouselImage">
+              <img src="/client/media/homepage.jpg">
+            </div>
+            <div class="carouselImage">
+              <img src="/client/media/groudon.jpg">
+            </div>
+            <div class="carouselImage">
+              <img src="/client/media/kyogre.jpg">
+            </div>
+            <div class="carouselImage">
+              <img src="/client/media/mewto.jpg">
+            </div>
+            <div class="carouselImage">
+              <img src="/client/media/rayquaza.png">
+            </div>
+          </div>  
+          <button id="carouselButtonPrev">◀</button>
+          <button id="carouselButtonNext">▶</button>
+        </section>
       </div>
+
       <div id="SavedTeams"></div>
     </main>
   </body>

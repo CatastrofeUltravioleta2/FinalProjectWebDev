@@ -39,6 +39,7 @@ const createPokemonCard = (pokemon) => {
   pokemon.types.forEach((t) => {
     const type = document.createElement("li");
     type.textContent = t;
+    type.classList.add(t);
     types.appendChild(type);
   });
 
